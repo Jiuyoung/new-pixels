@@ -40,8 +40,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
         converters.add(fastConverter);
     }
 
-    @Override
+    /*@Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**").allowedOrigins("*");
-    }
+    }*/
 }
