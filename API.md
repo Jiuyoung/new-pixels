@@ -14,11 +14,11 @@
 
 比如，用户注册的接口为：
 
-```http:// 120.79.138.162:9090```+```/user/register```
+```http:// 120.79.138.162:9090```+```/user/register/```
 
 ->
 
-```http:// 120.79.138.162:9090/user/register```
+```http:// 120.79.138.162:9090/user/register/```
 
 ## 调用接口说明
 - 如果参数格式是**JSON**的话：提交request请求时必须添加header头：**Content-Type:application/json**
@@ -68,7 +68,7 @@
 
 - Method: **POST**
 
-- URL: ```.../user/register```
+- URL: ```.../user/register/```
 
 - Headers: Content-Type:application/json
 
@@ -116,7 +116,7 @@
 #### Request
 - Method: **POST**
 
-- URL: ```.../user```
+- URL: ```.../user/```
 
 - Headers: Content-Type:application/json
 
@@ -156,4 +156,100 @@
 #### 说明
 
 Token作为识别用户是否登录的凭证，在请求需要认证的接口时需要在Headers中加入```"token":token```
+
+### 3.获取用户信息
+
+#### Request
+- Method: **GET**
+
+- URL: ```.../user/```
+
+- Headers: ```"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJzaHVhaV96aGFuZ19tZUAxNjMuY29tIn0.3MdkxWMpNVys_xqYKPd_0F0DUcs-o47Tx95aPJCwm_8"```
+
+- Body:
+    ```json
+    null
+    ```
+
+#### Response
+
+- Body
+
+  ```json
+  {
+      "code": "200",
+      "message": "sucess",
+      "object": {
+          "data": {
+              "account": "shuai_zhang_me@163.com",
+              "articleNum": 0,
+              "id": 1,
+              "message": "个性签名",
+              "name": "jiuyoung",
+              "password": "123456789",
+              "phone": "18729576978",
+              "registTime": 1559347200000,
+              "starsNum": 0
+          }
+      }
+  }
+  ```
+
+#### 说明
+
+此接口需要认证
+
+### 4.修改用户信息
+
+#### Request
+- Method: **GET**
+
+- URL: ```.../info```
+
+- Headers: ```"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJzaHVhaV96aGFuZ19tZUAxNjMuY29tIn0.3MdkxWMpNVys_xqYKPd_0F0DUcs-o47Tx95aPJCwm_8"```
+
+    ```Content-Type:application/json```
+
+- Body:
+    ```json
+    {
+    	"account": "shuai_zhang_me@163.com",
+        "articleNum": 0,
+        "id": 1,
+        "message": "个性签名",
+        "name": "jiuyoung",
+        "password": "123456789",
+        "phone": "18729576978",
+        "registTime": 1559347200000,
+        "starsNum": 0
+    }
+    ```
+
+#### Response
+
+- Body
+
+  ```json
+  {
+      "code": "200",
+      "message": "sucess",
+      "object": {
+          "data": {
+              "account": "shuai_zhang_me@163.com",
+              "articleNum": 0,
+              "id": 1,
+              "message": "个性签名",
+              "name": "jiuyoung",
+              "password": "123456789",
+              "phone": "18729576978",
+              "registTime": 1559347200000,
+              "starsNum": 0
+          }
+      }
+  }
+  ```
+
+#### 说明
+
+此接口需要认证
 
