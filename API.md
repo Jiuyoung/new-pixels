@@ -68,7 +68,7 @@
 
 - Method: **POST**
 
-- URL: ```.../user/register/```
+- URL: ```.../user/register```
 
 - Headers: Content-Type:application/json
 
@@ -116,7 +116,7 @@
 #### Request
 - Method: **POST**
 
-- URL: ```.../user/```
+- URL: ```.../user```
 
 - Headers: Content-Type:application/json
 
@@ -162,7 +162,7 @@ Token作为识别用户是否登录的凭证，在请求需要认证的接口时
 #### Request
 - Method: **GET**
 
-- URL: ```.../user/```
+- URL: ```.../user/info```
 
 - Headers: ```"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJzaHVhaV96aGFuZ19tZUAxNjMuY29tIn0.3MdkxWMpNVys_xqYKPd_0F0DUcs-o47Tx95aPJCwm_8"```
 
@@ -202,9 +202,9 @@ Token作为识别用户是否登录的凭证，在请求需要认证的接口时
 ### 4.修改用户信息
 
 #### Request
-- Method: **GET**
+- Method: **POST**
 
-- URL: ```.../info```
+- URL: ```.../user/info```
 
 - Headers: ```"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJzaHVhaV96aGFuZ19tZUAxNjMuY29tIn0.3MdkxWMpNVys_xqYKPd_0F0DUcs-o47Tx95aPJCwm_8"```
 
@@ -214,14 +214,11 @@ Token作为识别用户是否登录的凭证，在请求需要认证的接口时
     ```json
     {
     	"account": "shuai_zhang_me@163.com",
-        "articleNum": 0,
         "id": 1,
         "message": "个性签名",
         "name": "jiuyoung",
         "password": "123456789",
-        "phone": "18729576978",
-        "registTime": 1559347200000,
-        "starsNum": 0
+        "phone": "18729576978"
     }
     ```
 
@@ -252,4 +249,3 @@ Token作为识别用户是否登录的凭证，在请求需要认证的接口时
 #### 说明
 
 此接口需要认证
-

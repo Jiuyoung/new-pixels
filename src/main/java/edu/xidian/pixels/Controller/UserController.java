@@ -28,7 +28,7 @@ public class UserController {
     private TokenService tokenService;
 
     @UserLoginToken
-    @GetMapping("/")
+    @GetMapping("/info")
     public ResponseObject find(@CurrentUser User u) {
         ResponseObject o;
         if(u != null) {
@@ -69,7 +69,7 @@ public class UserController {
         return o;
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseObject login(@RequestBody UserAccount account) {
         ResponseObject o;
         User user = userService.login(account.getAccount(), account.getPassword());
