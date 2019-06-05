@@ -26,6 +26,9 @@ public class UserService {
     }
     
     public boolean insert(User user) {
+        if(userMapper.findByAccount(user.getAccount()) != null) {
+            return false;
+        }
         if(userMapper.insert(user) > 0) {
             return true;
         }

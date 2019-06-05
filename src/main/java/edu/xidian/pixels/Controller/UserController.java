@@ -1,13 +1,13 @@
 package edu.xidian.pixels.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.xidian.pixels.Annotation.CurrentUser;
-import edu.xidian.pixels.Annotation.UserLoginToken;
 import edu.xidian.pixels.Entity.User;
 import edu.xidian.pixels.Service.TokenService;
 import edu.xidian.pixels.Service.UserService;
@@ -18,6 +18,7 @@ import edu.xidian.pixels.util.ResponseObject;
  * UserController
  */
 @RestController
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
@@ -25,28 +26,20 @@ public class UserController {
     @Autowired
     private TokenService tokenService;
 
-    @UserLoginToken
-    @RequestMapping("/find")
-    public ResponseObject find(@RequestParam(value="id", required=true)Integer id, @CurrentUser User u) {
+    @GetMapping("/")
+    public ResponseObject find(@CurrentUser User u) {
         ResponseObject o;
-        if(null != id) {
-            User user = userService.select(id);
-            if(null != user) {
-                o = ResponseObject.getSuccessResponse();
-                o.putValue("data", user);
-                o.putValue("CurrentUser", u);
-            }
-            else {
-                o = ResponseObject.getFailResponse("未查找到用户");
-            }
+        if(u != null) {
+            o = ResponseObject.getSuccessResponse();
+            o.putValue("data", u);
         }
         else {
-            o = ResponseObject.getFailResponse("参数错误");
+            o = ResponseObject.getFailResponse("用户未登录");
         }
         return o;
     }
 
-    @RequestMapping("/logup")
+    @PostMapping("/regist")
     public ResponseObject insert(@RequestBody User user) {
         ResponseObject o;
         if(null != user && userService.insert(user)) {
@@ -59,7 +52,7 @@ public class UserController {
         return o;
     }
 
-    @RequestMapping("/login")
+    @PostMapping("/")
     public ResponseObject login(@RequestBody UserAccount account) {
         ResponseObject o;
         if(null != account) {
