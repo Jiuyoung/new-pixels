@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.xidian.pixels.Annotation.CurrentUser;
+import edu.xidian.pixels.Annotation.UserLoginToken;
 import edu.xidian.pixels.Entity.User;
 import edu.xidian.pixels.Service.TokenService;
 import edu.xidian.pixels.Service.UserService;
@@ -26,6 +27,7 @@ public class UserController {
     @Autowired
     private TokenService tokenService;
 
+    @UserLoginToken
     @GetMapping("/")
     public ResponseObject find(@CurrentUser User u) {
         ResponseObject o;
