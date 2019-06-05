@@ -24,6 +24,15 @@ public class UserService {
 	public User findUserById(String userId) {
 		return userMapper.findById(Integer.valueOf(userId));
     }
+
+    public User update(User user) {
+        if(userMapper.update(user) == 1) {
+            return userMapper.findById(user.getId());
+        }
+        else {
+            return null;
+        }
+    }
     
     public boolean insert(User user) {
         if(userMapper.findByAccount(user.getAccount()) != null) {

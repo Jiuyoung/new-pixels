@@ -41,10 +41,25 @@ public class UserController {
         return o;
     }
 
+    @UserLoginToken
+    @PostMapping("/info")
+    public ResponseObject edit(@RequestBody User user) {
+        ResponseObject o;
+        User u = userService.update(user);
+        if(null != u) {
+            o = ResponseObject.getSuccessResponse("修改成功");
+            o.putValue("data", u);
+        }
+        else {
+            o = ResponseObject.getFailResponse("修改失败");
+        }
+        return o;
+    }
+
     @PostMapping("/regist")
     public ResponseObject insert(@RequestBody User user) {
         ResponseObject o;
-        if(null != user && userService.insert(user)) {
+        if(userService.insert(user)) {
             o = ResponseObject.getSuccessResponse();
             o.putValue("data", user);
         }
@@ -57,19 +72,14 @@ public class UserController {
     @PostMapping("/")
     public ResponseObject login(@RequestBody UserAccount account) {
         ResponseObject o;
-        if(null != account) {
-            User user = userService.login(account.getAccount(), account.getPassword());
-            if(null != user) {
-                o = ResponseObject.getSuccessResponse("登录成功");
-                o.putValue("token", tokenService.getToken(user));
-                o.putValue("data", user);
-            }
-            else {
-                o = ResponseObject.getFailResponse("账户不存在或者密码错误");
-            }
-        } 
+        User user = userService.login(account.getAccount(), account.getPassword());
+        if(null != user) {
+            o = ResponseObject.getSuccessResponse("登录成功");
+            o.putValue("token", tokenService.getToken(user));
+            o.putValue("data", user);
+        }
         else {
-            o = ResponseObject.getFailResponse();
+            o = ResponseObject.getFailResponse("账户不存在或者密码错误");
         }
         return o;
     }
