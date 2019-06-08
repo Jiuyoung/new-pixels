@@ -3,12 +3,14 @@ package edu.xidian.pixels.Entity;
 import java.util.Date;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
  * Article
  */
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

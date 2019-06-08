@@ -2,7 +2,7 @@ package edu.xidian.pixels.Controller;
 
 import edu.xidian.pixels.Entity.Article;
 import edu.xidian.pixels.Service.ArticleService;
-import edu.xidian.pixels.util.ResponseObject;
+import edu.xidian.pixels.VO.ResponseObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

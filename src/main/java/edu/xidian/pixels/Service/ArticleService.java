@@ -5,7 +5,6 @@ import edu.xidian.pixels.Entity.User;
 import edu.xidian.pixels.Mapper.ArticleMapper;
 import edu.xidian.pixels.Mapper.UserMapper;
 import edu.xidian.pixels.VO.AuthorVO;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

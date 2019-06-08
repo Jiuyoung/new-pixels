@@ -1,6 +1,7 @@
 package edu.xidian.pixels.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,8 +13,8 @@ import edu.xidian.pixels.Annotation.UserLoginToken;
 import edu.xidian.pixels.Entity.User;
 import edu.xidian.pixels.Service.TokenService;
 import edu.xidian.pixels.Service.UserService;
+import edu.xidian.pixels.VO.ResponseObject;
 import edu.xidian.pixels.VO.UserAccount;
-import edu.xidian.pixels.util.ResponseObject;
 
 /**
  * UserController
@@ -57,7 +58,7 @@ public class UserController {
     }
 
     @PostMapping("/regist")
-    public ResponseObject insert(@RequestBody User user) {
+    public ResponseObject insert(@RequestBody @Validated User user) {
         ResponseObject o;
         if(userService.insert(user)) {
             o = ResponseObject.getSuccessResponse();
@@ -70,7 +71,7 @@ public class UserController {
     }
 
     @PostMapping("")
-    public ResponseObject login(@RequestBody UserAccount account) {
+    public ResponseObject login(@RequestBody @Validated UserAccount account) {
         ResponseObject o;
         User user = userService.login(account.getAccount(), account.getPassword());
         if(null != user) {
