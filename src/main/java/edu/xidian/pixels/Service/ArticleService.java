@@ -1,7 +1,10 @@
 package edu.xidian.pixels.Service;
 
 import edu.xidian.pixels.Entity.Article;
+import edu.xidian.pixels.Entity.User;
 import edu.xidian.pixels.Mapper.ArticleMapper;
+import edu.xidian.pixels.Mapper.UserMapper;
+import edu.xidian.pixels.VO.AuthorVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,9 +18,16 @@ public class ArticleService {
     @Autowired
     private ArticleMapper articleMapper;
 
+    @Autowired
+    private UserMapper userMapper;
+
     public Article findById(Integer id){
         if(id!=null){
             Article article=articleMapper.findById(id);
+            User user=userMapper.findById(article.getAuthor());
+            AuthorVO authorVO=AuthorVO.trans(user);
+            //tags查询
+
             if (article!=null)
                 return article;
         }
