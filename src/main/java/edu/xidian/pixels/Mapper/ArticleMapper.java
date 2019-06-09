@@ -3,6 +3,8 @@ package edu.xidian.pixels.Mapper;
 import edu.xidian.pixels.Entity.Article;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 /**
  * ArticleMapper
  */
@@ -30,5 +32,5 @@ public interface ArticleMapper {
 
     //挑选点赞数大于某值的文章
     @Select("select * from article where stars>#{stars}")
-    int recommend(int stars);
+    List<Article> recommend(int stars);
 }
