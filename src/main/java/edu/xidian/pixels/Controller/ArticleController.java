@@ -64,4 +64,18 @@ public class ArticleController {
             o=ResponseObject.getFailResponse("文章不存在");
         return o;
     }
+
+    @GetMapping("/insert")
+    public ResponseObject insert(@RequestBody Article article){
+        ResponseObject o;
+        if(article!=null){
+            if(articleService.insert(article))
+                o=ResponseObject.getSuccessResponse("插入成功");
+            else
+                o=ResponseObject.getFailResponse("插入失败");
+        }
+        else
+            o=ResponseObject.getFailResponse("文章为null");
+        return o;
+    }
 }

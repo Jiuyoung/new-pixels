@@ -27,4 +27,8 @@ public interface ArticleMapper {
 
     @Update("update article set stars=#{stars} where id=#{id}")
     int editStars(Article article);
+
+    //挑选点赞数大于某值的文章
+    @Select("select * from article where stars>#{stars}")
+    int recommend(int stars);
 }
