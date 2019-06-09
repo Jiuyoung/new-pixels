@@ -17,7 +17,7 @@ public class ArticleController {
     @Autowired
     private ArticleService articleService;
 
-    @GetMapping("/")
+    @GetMapping("/id")
     public ResponseObject findById(@RequestParam(name = "id") Integer id){
         ResponseObject o;
         ArticleVO articleVO=articleService.findById(id);
@@ -31,8 +31,8 @@ public class ArticleController {
         return o;
     }
 
-    @GetMapping("/")
-    public ResponseObject findByAuthor(@RequestParam(name="author") Integer author){
+    @GetMapping("/author")
+    public ResponseObject findByAuthor(@RequestParam(name = "author") Integer author){
         ResponseObject o;
         ArticleVO articleVO=articleService.findByAuthor(author);
         if(articleVO!=null){
@@ -44,12 +44,14 @@ public class ArticleController {
         return o;
     }
 
-    /*@GetMapping("/upstars")
-    public ResponseObject upStars(@RequestParam(name = "id") Integer id){
+    @GetMapping("/stars")
+    public ResponseObject upStars(@RequestParam(name = "id") Integer id,
+                                  @RequestParam(name = "up",defaultValue = "true") Boolean up){
+        int temp=up?1:-1;
         ResponseObject o;
         Article article=articleService.getArticle(id);
         if(article!=null){
-            article.setId(article.getId()+1);
+            article.setId(article.getId()+temp);
             ArticleVO articleVO=articleService.editStars(article);
             if(articleVO!=null){
                 o=ResponseObject.getSuccessResponse();
@@ -61,5 +63,5 @@ public class ArticleController {
         else
             o=ResponseObject.getFailResponse("文章不存在");
         return o;
-    }*/
+    }
 }

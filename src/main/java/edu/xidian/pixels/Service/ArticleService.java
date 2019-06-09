@@ -29,12 +29,16 @@ public class ArticleService {
     public ArticleVO findById(Integer id){
         if(id!=null){
             Article article=articleMapper.findById(id);
-            User user=userMapper.findById(article.getAuthor());
-            AuthorVO authorVO=AuthorVO.trans(user);
-            Tags tags=tagsMapper.findById(article.getTag());
-            if(article!=null && user!=null && tags!=null) {
-                ArticleVO articleVO = ArticleVO.trans(article, authorVO, tags);
-                return articleVO;
+            if(article!=null) {
+                User user = userMapper.findById(article.getAuthor());
+                if(user!=null) {
+                    AuthorVO authorVO = AuthorVO.trans(user);
+                    Tags tags = tagsMapper.findById(article.getTag());
+                    if (tags != null) {
+                        ArticleVO articleVO = ArticleVO.trans(article, authorVO, tags);
+                        return articleVO;
+                    }
+                }
             }
         }
         return null;
@@ -43,12 +47,16 @@ public class ArticleService {
     public ArticleVO findByAuthor(Integer author){
         if(author!=null){
             Article article=articleMapper.findByAuthor(author);
-            User user=userMapper.findById(article.getAuthor());
-            AuthorVO authorVO=AuthorVO.trans(user);
-            Tags tags=tagsMapper.findById(article.getTag());
-            if(article!=null && user!=null && tags!=null) {
-                ArticleVO articleVO = ArticleVO.trans(article, authorVO, tags);
-                return articleVO;
+            if(article!=null) {
+                User user = userMapper.findById(article.getAuthor());
+                if(user!=null) {
+                    AuthorVO authorVO = AuthorVO.trans(user);
+                    Tags tags = tagsMapper.findById(article.getTag());
+                    if (tags != null) {
+                        ArticleVO articleVO = ArticleVO.trans(article, authorVO, tags);
+                        return articleVO;
+                    }
+                }
             }
         }
         return null;
