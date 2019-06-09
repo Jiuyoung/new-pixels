@@ -20,8 +20,8 @@ public interface UserMapper {
     @Select("select * from user where account = #{account}")
     User findByAccount(String account);
 
-    @Insert("insert into user(name,account,password,message,regist_time,phone,stars_num,article_num)" + 
-            "values(#{name},#{account},#{password},#{message},#{registTime},#{phone},#{starsNum},#{articleNum})")
+    @Insert("insert into user(name,account,password,regist_time,phone)" + 
+            "values(#{name},#{account},#{password},#{registTime},#{phone})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(User user);
 

@@ -2,8 +2,11 @@ package edu.xidian.pixels.Service;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.xidian.pixels.Entity.User;
 import edu.xidian.pixels.Mapper.UserMapper;
@@ -16,15 +19,10 @@ public class UserService {
 
     @Autowired
     private UserMapper userMapper;
-    
-    public User select(Integer id) {
-        return userMapper.findById(id);
-    }
 
-	public User findUserById(String userId) {
-		return userMapper.findById(Integer.valueOf(userId));
-    }
-
+    @Transactional
+    @CachePut(value = "redisCache",
+            key = "'redis_user_' + #user.getAccount()")
     public User update(User user) {
         if(userMapper.update(user) == 1) {
             return userMapper.findById(user.getId());
@@ -34,34 +32,37 @@ public class UserService {
         }
     }
     
-    public boolean insert(User user) {
+    @Transactional
+    @CachePut(value = "redisCache", 
+            key="'redis_user_' + #user.getAccount()")
+    public User insert(User user) {
         if(userMapper.findByAccount(user.getAccount()) != null) {
-            return false;
+            return null;
         }
         if(userMapper.insert(user) > 0) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
-    @Nullable
-    public User login(String account, String password) {
-        if(StringUtils.isNoneEmpty(account, password) && StringUtils.isNoneBlank(account, password)) {
-            User user = userMapper.findByAccount(account);
-            if(null != user && user.getPassword().equals(password)) {
-                return user;
-            }
-            else {
-                return null;
-            }
+            return user;
         }
         else {
             return null;
         }
     }
 
+    @Nullable
+    public User login(String account, String password) {
+        User user = userMapper.findByAccount(account);
+        if(null != user && user.getPassword().equals(password)) {
+            return user;
+        }
+        else {
+            return null;
+        }
+    }
+
+    @Nullable
+    @Transactional
+    @Cacheable(value = "redisCache",
+            unless = "#result == null",
+            key = "'redis_user_' + #account")
     public User findByAccount(String account) {
         if(StringUtils.isNotEmpty(account) && StringUtils.isNotBlank(account)) {
             User user = userMapper.findByAccount(account);

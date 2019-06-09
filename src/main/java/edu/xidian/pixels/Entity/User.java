@@ -1,5 +1,6 @@
 package edu.xidian.pixels.Entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.validation.constraints.Email;
@@ -20,14 +21,15 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class User implements Serializable{
 
+    private static final long serialVersionUID = 1L;
     private int id;
     private String name;
     @Email(message = "邮箱格式不正确")
     @NotNull(message = "账号不能为空")
     private String account;
-    @Size(min = 10, max = 20, message = "密码长度不合要求")
+    @Size(min = 9, max = 20, message = "密码长度不合要求")
     private String password;
     private String message;
     private Date registTime;

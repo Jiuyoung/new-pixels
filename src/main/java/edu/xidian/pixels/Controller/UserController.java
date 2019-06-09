@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.xidian.pixels.Annotation.CurrentUser;
@@ -60,9 +61,10 @@ public class UserController {
     @PostMapping("/regist")
     public ResponseObject insert(@RequestBody @Validated User user) {
         ResponseObject o;
-        if(userService.insert(user)) {
+        User u = userService.insert(user);
+        if(u != null) {
             o = ResponseObject.getSuccessResponse();
-            o.putValue("data", user);
+            o.putValue("data", u);
         }
         else {
             o = ResponseObject.getFailResponse("新建用户失败");
@@ -85,4 +87,8 @@ public class UserController {
         return o;
     }
     
+    @GetMapping("/find")
+    public User findUser(@RequestParam(name = "account") String account) {
+        return userService.findByAccount(account);
+    }
 }
