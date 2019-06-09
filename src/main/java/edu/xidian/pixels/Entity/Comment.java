@@ -19,6 +19,6 @@ public class Comment {
     private int id;
     private int articleId;
     private int userId;
-    private String text;
+    private String message;
     private Date time;
 }

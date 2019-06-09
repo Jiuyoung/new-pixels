@@ -15,7 +15,7 @@ public interface ArticleMapper {
     Article findById(int id);
 
     @Select("select * from article where author=#{author}")
-    Article findByAuthor(int author);
+    List<Article> findByAuthor(int author);
 
     @Insert("insert into article(title,author,publish_time,tag,content,stars,comments)" +
             " values(#{title},#{author},#{publishTime},#{tag},#{content},#{stars}," +

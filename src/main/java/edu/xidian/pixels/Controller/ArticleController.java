@@ -7,6 +7,8 @@ import edu.xidian.pixels.VO.ResponseObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * ArticleController
  */
@@ -32,12 +34,12 @@ public class ArticleController {
     }
 
     @GetMapping("/author")
-    public ResponseObject findByAuthor(@RequestParam(name = "author") Integer author){
+    public ResponseObject findByAuthor(@RequestParam(name = "id") Integer author){
         ResponseObject o;
-        ArticleVO articleVO=articleService.findByAuthor(author);
-        if(articleVO!=null){
+        List<ArticleVO> articleVOList=articleService.findByAuthor(author);
+        if(articleVOList!=null && !articleVOList.isEmpty()){
             o=ResponseObject.getSuccessResponse();
-            o.putValue("data",articleVO);
+            o.putValue("data",articleVOList);
         }
         else
             o=ResponseObject.getFailResponse("文章不存在");
@@ -51,7 +53,7 @@ public class ArticleController {
         ResponseObject o;
         Article article=articleService.getArticle(id);
         if(article!=null){
-            article.setId(article.getId()+temp);
+            article.setStars(article.getStars()+temp);
             ArticleVO articleVO=articleService.editStars(article);
             if(articleVO!=null){
                 o=ResponseObject.getSuccessResponse();

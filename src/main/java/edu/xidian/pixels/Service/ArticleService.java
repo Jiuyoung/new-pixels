@@ -11,6 +11,9 @@ import edu.xidian.pixels.VO.AuthorVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * ArticleService
  */
@@ -44,19 +47,20 @@ public class ArticleService {
         return null;
     }
 
-    public ArticleVO findByAuthor(Integer author){
+    public List<ArticleVO> findByAuthor(Integer author){
         if(author!=null){
-            Article article=articleMapper.findByAuthor(author);
-            if(article!=null) {
-                User user = userMapper.findById(article.getAuthor());
-                if(user!=null) {
-                    AuthorVO authorVO = AuthorVO.trans(user);
-                    Tags tags = tagsMapper.findById(article.getTag());
-                    if (tags != null) {
-                        ArticleVO articleVO = ArticleVO.trans(article, authorVO, tags);
-                        return articleVO;
+            List<ArticleVO> voList=new ArrayList<>();
+            List<Article> list=articleMapper.findByAuthor(author);
+            if(list!=null && !list.isEmpty()){
+                for (Article article:list){
+                    User user=userMapper.findById(author);
+                    AuthorVO authorVO=AuthorVO.trans(user);
+                    Tags tags=tagsMapper.findById(article.getTag());
+                    if(tags!=null){
+                        voList.add(ArticleVO.trans(article,authorVO,tags));
                     }
                 }
+                return voList;
             }
         }
         return null;
