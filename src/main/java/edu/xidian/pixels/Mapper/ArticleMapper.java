@@ -17,8 +17,8 @@ public interface ArticleMapper {
     @Select("select * from article where author=#{author}")
     Article findByAuthor(int author);
 
-    @Insert("insert into article(id,title,author,publish_time,tag,content,stars,comments)" +
-            " values(#{id},#{title},#{author},#{publishTime},#{tag},#{content},#{stars}," +
+    @Insert("insert into article(title,author,publish_time,tag,content,stars,comments)" +
+            " values(#{title},#{author},#{publishTime},#{tag},#{content},#{stars}," +
             "#{comments})")
     @Options(useGeneratedKeys = true,keyProperty = "id")
     int insert(Article article);

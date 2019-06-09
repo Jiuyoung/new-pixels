@@ -17,8 +17,8 @@ public interface CommentMapper {
     @Select("select * from comment where user_id=#{userId}")
     List<Comment> selectByUser(int userId);
 
-    @Insert("insert into comment(id,article_id,user_id,message,time) " +
-            "values(#{id},#{articleId},#{userId},#{text},#{time})")
+    @Insert("insert into comment(article_id,user_id,message,time) " +
+            "values(#{articleId},#{userId},#{text},#{time})")
     @Options(useGeneratedKeys = true,keyProperty = "id")
     int insert(Comment comment);
 
