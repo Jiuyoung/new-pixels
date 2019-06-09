@@ -24,4 +24,7 @@ public interface ArticleMapper {
     @Update("update article set title=#{title},tag=#{tag},context=#{context},stars=#{stars}" +
             ",comments=#{comments} where id=#{id}")
     int update(Article article);
+
+    @Update("update article set stars=#{stars} where id=#{id}")
+    int editStars(Article article);
 }
