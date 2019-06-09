@@ -5,9 +5,14 @@ import edu.xidian.pixels.Entity.Comment;
 import edu.xidian.pixels.Mapper.ArticleMapper;
 import edu.xidian.pixels.Mapper.CommentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import com.github.pagehelper.PageHelper;
 
 @Service
 public class CommentService {
@@ -18,6 +23,9 @@ public class CommentService {
     @Autowired
     private ArticleMapper articleMapper;
 
+    @Cacheable(value = "redisCache",
+            unless = "#result == null",
+            key = "'redis_comment_' + #id")
     public Comment findById(Integer id){
         if(id!=null){
             Comment comment=commentMapper.select(id);
@@ -38,13 +46,14 @@ public class CommentService {
 
     public List<Comment> findByUser(Integer userId){
         if(userId!=null){
+            PageHelper.startPage(1, 2);
             List<Comment> comments=commentMapper.selectByUser(userId);
-            if(comments!=null)
-                return comments;
+            return comments;
         }
         return null;
     }
-
+    @CachePut(value = "redisCache",
+        key = "'redis_comment_' + #comment.getId()")
     public boolean insert(Comment comment){
         if(comment!=null) {
             Article article = articleMapper.findById(comment.getArticleId());
@@ -59,6 +68,8 @@ public class CommentService {
         return false;
     }
 
+    @CacheEvict(value = "redisCache",
+            key = "'redis_comment_' + #id")
     public boolean delete(Integer id){
         if(id!=null){
             Comment comment=commentMapper.select(id);

@@ -9,7 +9,10 @@ import edu.xidian.pixels.Mapper.UserMapper;
 import edu.xidian.pixels.VO.ArticleVO;
 import edu.xidian.pixels.VO.AuthorVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +32,10 @@ public class ArticleService {
     @Autowired
     private TagsMapper tagsMapper;
 
+    @Transactional
+    @Cacheable(value = "redisCache",
+            unless = "#result == null",
+            key = "'redis_article_' + #id")
     public ArticleVO findById(Integer id){
         if(id!=null){
             Article article=articleMapper.findById(id);
@@ -47,6 +54,7 @@ public class ArticleService {
         return null;
     }
 
+    @Transactional
     public List<ArticleVO> findByAuthor(Integer author){
         if(author!=null){
             List<ArticleVO> voList=new ArrayList<>();
@@ -80,6 +88,8 @@ public class ArticleService {
         return null;
     }
 
+    @CachePut(value = "redisCache",
+            key = "'redis_article_' + #article.getId()")
     public boolean insert(Article article){
         if(article!=null) {
             if (articleMapper.insert(article) > 0)
@@ -93,6 +103,8 @@ public class ArticleService {
      * @param article
      * @return
      */
+    @CachePut(value = "redisCache",
+            key = "'redis_article_' + #article.getId()")
     public ArticleVO update(Article article){
         if(articleMapper.insert(article)==1){
             return this.findById(article.getId());

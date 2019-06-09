@@ -1,5 +1,7 @@
 package edu.xidian.pixels.VO;
 
+import java.io.Serializable;
+
 import com.alibaba.fastjson.JSONObject;
 
 import lombok.Data;
@@ -10,8 +12,9 @@ import lombok.ToString;
  */
 @ToString
 @Data
-public class ResponseObject {
+public class ResponseObject implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private int code;
     private String message;
     private JSONObject object;

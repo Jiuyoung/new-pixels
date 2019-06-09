@@ -1,5 +1,6 @@
 package edu.xidian.pixels.Entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import lombok.AllArgsConstructor;
@@ -14,8 +15,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Comment {
+public class Comment implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private int id;
     private int articleId;
     private int userId;

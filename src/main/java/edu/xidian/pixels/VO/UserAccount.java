@@ -1,5 +1,7 @@
 package edu.xidian.pixels.VO;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -14,8 +16,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserAccount {
+public class UserAccount implements Serializable {
     
+    private static final long serialVersionUID = 1L;
     @Email(message = "邮箱格式不正确")
     @NotNull(message = "账号不能为空")
     private String account;

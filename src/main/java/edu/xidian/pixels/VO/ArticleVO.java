@@ -1,5 +1,6 @@
 package edu.xidian.pixels.VO;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import edu.xidian.pixels.Entity.Article;
@@ -14,8 +15,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ArticleVO {
+public class ArticleVO implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private int articleId;
     private AuthorVO author;
     private String title;

@@ -12,6 +12,7 @@ import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import edu.xidian.pixels.Annotation.PassToken;
 import edu.xidian.pixels.Annotation.UserLoginToken;
 import edu.xidian.pixels.Entity.User;
+import edu.xidian.pixels.Service.TokenService;
 import edu.xidian.pixels.Service.UserService;
 
 /**
@@ -30,6 +32,8 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private TokenService tokenService;
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
@@ -63,7 +67,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             UserLoginToken userLoginToken = method.getAnnotation(UserLoginToken.class);
             if(userLoginToken.required()) {
                 if(token == null) {
-                    response.setStatus(401);
+                    response.setStatus(HttpStatus.UNAUTHORIZED.value());
                     throw new RuntimeException("无效token，请重新登录!");
                 }
                 String userAccount;
@@ -71,23 +75,27 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                     userAccount = JWT.decode(token).getAudience().get(0);
 
                 } catch (JWTDecodeException e) {
-                    response.setStatus(401);
-                    throw new RuntimeException("401");
+                    response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+                    throw new RuntimeException("服务器出错!");
                 }
-                User user = userService.findByAccount(userAccount);
-                if(user == null) {
-                    response.setStatus(401);
-                    throw new RuntimeException("用户不存在， 请重新登录");
+
+                if(tokenService.hasToken(userAccount)) {
+                    JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(tokenService.findUUID(userAccount))).build();
+                    try {
+                        jwtVerifier.verify(token);
+                    } catch (JWTVerificationException e) {
+                        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                        throw new RuntimeException("无效Token，请重新登录!");
+                    }
+                    User user = userService.findByAccount(userAccount);
+                    tokenService.updateToken(userAccount, token);
+                    request.setAttribute("CurrentUser", user);
+                    return true;
                 }
-                JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(user.getPassword())).build();
-                try {
-                    jwtVerifier.verify(token);
-                } catch (JWTVerificationException e) {
-                    response.setStatus(401);
-                    throw new RuntimeException("401");
+                else {
+                    response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                    throw new RuntimeException("无效token，请重新登录!");
                 }
-                request.setAttribute("CurrentUser", user);
-                return true;
             }
         }
         return true;
