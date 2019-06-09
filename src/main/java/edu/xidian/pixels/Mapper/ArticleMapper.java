@@ -23,7 +23,7 @@ public interface ArticleMapper {
     @Options(useGeneratedKeys = true,keyProperty = "id")
     int insert(Article article);
 
-    @Update("update article set title=#{title},tag=#{tag},context=#{context},stars=#{stars}" +
+    @Update("update article set title=#{title},tag=#{tag},content=#{content},stars=#{stars}" +
             ",comments=#{comments} where id=#{id}")
     int update(Article article);
 

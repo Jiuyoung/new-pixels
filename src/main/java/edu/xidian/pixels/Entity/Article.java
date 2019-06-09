@@ -23,5 +23,5 @@ public class Article {
     private int tag;
     private String content;
     private int stars;
-    private int comments;//点赞数
+    private int comments;//评论数
 }
