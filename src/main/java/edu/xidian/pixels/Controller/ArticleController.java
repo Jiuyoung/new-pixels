@@ -75,8 +75,10 @@ public class ArticleController {
             else {
                 article.setStars(article.getStars()+temp);
                 ArticleVO articleVO=articleService.editStars(article);
-                if(up?starService.insert(star):starService.delete(star.getId()))
+                if(up?starService.insert(star):starService.delete(star.getId())) {
                     o=ResponseObject.getSuccessResponse();
+                    o.putValue("data", articleVO);
+                }
                 else
                     o=ResponseObject.getFailResponse("更新点赞失败");
             }
@@ -86,9 +88,10 @@ public class ArticleController {
 
     @UserLoginToken
     @PostMapping("")
-    public ResponseObject insert(@RequestBody Article article) {
+    public ResponseObject insert(@CurrentUser User user, @RequestBody Article article) {
         ResponseObject o;
         if(article != null){
+            article.setAuthor(user.getId());
             if(articleService.insert(article)) {
                 o = ResponseObject.getSuccessResponse("新建文章成功！");
                 o.putValue("data", articleService.findById(article.getId()));

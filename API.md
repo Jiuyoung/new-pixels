@@ -213,8 +213,6 @@ Token作为识别用户是否登录的凭证，在请求需要认证的接口时
 - Body:
     ```json
     {
-    	"account": "shuai_zhang_me@163.com",
-        "id": 1,
         "message": "个性签名",
         "name": "jiuyoung",
         "password": "123456789",
@@ -262,15 +260,14 @@ Token作为识别用户是否登录的凭证，在请求需要认证的接口时
 
 - Headers: 
 
-  * Content-Type:application/json
-  * token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJzaHVhaV96aGFuZ19tZUAxNjMuY29tIn0.3MdkxWMpNVys_xqYKPd_0F0DUcs-o47Tx95aPJCwm_8
+  * `Content-Type:application/json`
+  * `token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJzaHVhaV96aGFuZ19tZUAxNjMuY29tIn0.3MdkxWMpNVys_xqYKPd_0F0DUcs-o47Tx95aPJCwm_8`
 
 - Body:
 
   ```json
   {
       "title":"日记16日",
-      "author":1,
       "publishTime":1559347200000,
       "tag":1,
       "content":"<p><h1>日记16日</h1></p>"
@@ -306,12 +303,14 @@ Token作为识别用户是否登录的凭证，在请求需要认证的接口时
       }
   }
   ```
+  
+  
 
 #### 说明
 
 此接口需要认证
 
-### 2.点赞文章
+### ~~2.点赞文章~~
 
 #### Request
 
@@ -493,3 +492,48 @@ Token作为识别用户是否登录的凭证，在请求需要认证的接口时
 #### 说明
 
 此接口不需要认证
+
+## 评论模块
+
+### 1.新增评论
+
+#### Request
+
+- Method: **POST**
+
+- URL: ```.../comment```
+
+- Headers: 
+
+  * `Content-Type:application/json`
+  * `token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJzaHVhaV96aGFuZ19tZUAxNjMuY29tIn0.3MdkxWMpNVys_xqYKPd_0F0DUcs-o47Tx95aPJCwm_8`
+
+- Body:
+
+  ```json
+  {
+      "articleId":7,
+      "message":"文章一点都不好看",
+      "time":1559347200000
+  }
+  ```
+  
+
+#### Response
+
+- Body
+
+  ```json
+  {
+      "code": 200,
+      "message": "评论成功！",
+      "object": {}
+  }
+  ```
+  
+  
+
+#### 说明
+
+此接口需要认证
+

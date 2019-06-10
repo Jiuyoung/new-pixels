@@ -1,6 +1,9 @@
 package edu.xidian.pixels.Controller;
 
+import edu.xidian.pixels.Annotation.CurrentUser;
+import edu.xidian.pixels.Annotation.UserLoginToken;
 import edu.xidian.pixels.Entity.Comment;
+import edu.xidian.pixels.Entity.User;
 import edu.xidian.pixels.Service.CommentService;
 import edu.xidian.pixels.VO.ResponseObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,21 +57,24 @@ public class CommentController {
         return o;
     }
 
-    @GetMapping("/insert")
-    public ResponseObject insert(@RequestBody Comment comment){
+    @UserLoginToken
+    @PostMapping("")
+    public ResponseObject insert( @CurrentUser User user, @RequestBody Comment comment){
         ResponseObject o;
-        if(comment!=null){
+        if(comment!=null) {
+            comment.setUserId(user.getId());
             if(commentService.insert(comment))
-                o=ResponseObject.getSuccessResponse("插入成功");
+                o=ResponseObject.getSuccessResponse("评论成功！");
             else
-                o=ResponseObject.getFailResponse("插入失败");
+                o=ResponseObject.getFailResponse("评论失败！");
         }
         else
-            o=ResponseObject.getFailResponse("评论为null");
+            o=ResponseObject.getFailResponse("评论出错");
         return o;
     }
 
-    @GetMapping("/delete")
+    @UserLoginToken
+    @DeleteMapping("")
     public ResponseObject delete(@RequestParam(name = "id") Integer id){
         ResponseObject o;
         if(id!=null){

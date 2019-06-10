@@ -80,7 +80,9 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                 }
 
                 if(tokenService.hasToken(userAccount)) {
-                    JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(tokenService.findUUID(userAccount))).build();
+                    String uuid = tokenService.findUUID(userAccount);
+                    System.out.println(uuid);
+                    JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(uuid)).build();
                     try {
                         jwtVerifier.verify(token);
                     } catch (JWTVerificationException e) {
