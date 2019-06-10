@@ -1,6 +1,9 @@
 package edu.xidian.pixels.Controller;
 
+import edu.xidian.pixels.Annotation.CurrentUser;
+import edu.xidian.pixels.Annotation.UserLoginToken;
 import edu.xidian.pixels.Entity.Article;
+import edu.xidian.pixels.Entity.User;
 import edu.xidian.pixels.Service.ArticleService;
 import edu.xidian.pixels.VO.ArticleVO;
 import edu.xidian.pixels.VO.ResponseObject;
@@ -28,25 +31,29 @@ public class ArticleController {
             o.putValue("data",articleVO);
         }
         else {
-            o=ResponseObject.getFailResponse("文章不存在");
+            o=ResponseObject.getFailResponse("文章不存在！");
         }
         return o;
     }
 
+    @UserLoginToken
     @GetMapping("/author")
-    public ResponseObject findByAuthor(@RequestParam(name = "id") Integer author){
+    public ResponseObject findByAuthor(@CurrentUser User user,
+                                    @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
+                                    @RequestParam(name = "pageSize", defaultValue = "5") int pageSize) {
         ResponseObject o;
-        List<ArticleVO> articleVOList=articleService.findByAuthor(author);
+        List<ArticleVO> articleVOList=articleService.findByAuthor(user.getId(), pageNum, pageSize);
         if(articleVOList!=null && !articleVOList.isEmpty()){
             o=ResponseObject.getSuccessResponse();
             o.putValue("data",articleVOList);
         }
         else
-            o=ResponseObject.getFailResponse("文章不存在");
+            o=ResponseObject.getFailResponse("文章不存在！");
         return o;
     }
 
-    @GetMapping("/stars")
+    @UserLoginToken
+    @PostMapping("/stars")
     public ResponseObject upStars(@RequestParam(name = "id") Integer id,
                                   @RequestParam(name = "up",defaultValue = "true") Boolean up){
         int temp=up?1:-1;
@@ -67,17 +74,20 @@ public class ArticleController {
         return o;
     }
 
-    @GetMapping("/insert")
-    public ResponseObject insert(@RequestBody Article article){
+    @UserLoginToken
+    @PostMapping("")
+    public ResponseObject insert(@RequestBody Article article) {
         ResponseObject o;
-        if(article!=null){
-            if(articleService.insert(article))
-                o=ResponseObject.getSuccessResponse("插入成功");
+        if(article != null){
+            if(articleService.insert(article)) {
+                o = ResponseObject.getSuccessResponse("新建文章成功！");
+                o.putValue("data", articleService.findById(article.getId()));
+            }
             else
-                o=ResponseObject.getFailResponse("插入失败");
+                o = ResponseObject.getFailResponse("新建文章失败！");
         }
         else
-            o=ResponseObject.getFailResponse("文章为null");
+            o = ResponseObject.getFailResponse("新建文章失败！");
         return o;
     }
 }

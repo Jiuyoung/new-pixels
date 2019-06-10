@@ -29,12 +29,12 @@ public class TokenService {
         if(hasToken(user.getAccount())){
             template.delete("token_" + user.getAccount());
         }
-        template.opsForValue().set("token_" + user.getAccount(), uuid, Duration.ofHours(1));
+        template.opsForValue().set("token_" + user.getAccount(), uuid, Duration.ofMinutes(30));
         return token;
     }
 
     public void updateToken(String userAccount, String token) {
-        template.expire("token_" + userAccount, 1, TimeUnit.HOURS);
+        template.expire("token_" + userAccount, 30, TimeUnit.MINUTES);
     }
 
     public boolean hasToken(String userAccount) {

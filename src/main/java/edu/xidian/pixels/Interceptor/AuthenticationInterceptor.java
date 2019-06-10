@@ -94,7 +94,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                 }
                 else {
                     response.setStatus(HttpStatus.UNAUTHORIZED.value());
-                    throw new RuntimeException("无效token，请重新登录!");
+                    throw new RuntimeException("登录失效，请重新登录!");
                 }
             }
         }

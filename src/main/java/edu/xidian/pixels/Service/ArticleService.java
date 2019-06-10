@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.pagehelper.PageHelper;
+
 /**
  * ArticleService
  */
@@ -55,9 +57,10 @@ public class ArticleService {
     }
 
     @Transactional
-    public List<ArticleVO> findByAuthor(Integer author){
+    public List<ArticleVO> findByAuthor(Integer author, Integer pageNum, Integer pageSize){
         if(author!=null){
             List<ArticleVO> voList=new ArrayList<>();
+            PageHelper.startPage(pageNum, pageSize);
             List<Article> list=articleMapper.findByAuthor(author);
             if(list!=null && !list.isEmpty()){
                 for (Article article:list){
@@ -88,8 +91,6 @@ public class ArticleService {
         return null;
     }
 
-    @CachePut(value = "redisCache",
-            key = "'redis_article_' + #article.getId()")
     public boolean insert(Article article){
         if(article!=null) {
             if (articleMapper.insert(article) > 0)
@@ -118,6 +119,8 @@ public class ArticleService {
      * @param article
      * @return
      */
+    @CachePut(value = "redisCache",
+            key = "'redis_article_' + #article.getId()")
     public ArticleVO editStars(Article article){
         if(articleMapper.editStars(article)==1){
             return this.findById(article.getId());

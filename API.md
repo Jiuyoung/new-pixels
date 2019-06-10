@@ -164,7 +164,7 @@ Token作为识别用户是否登录的凭证，在请求需要认证的接口时
 
 - URL: ```.../user/info```
 
-- Headers: ```"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJzaHVhaV96aGFuZ19tZUAxNjMuY29tIn0.3MdkxWMpNVys_xqYKPd_0F0DUcs-o47Tx95aPJCwm_8"```
+- Headers: ```token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJzaHVhaV96aGFuZ19tZUAxNjMuY29tIn0.3MdkxWMpNVys_xqYKPd_0F0DUcs-o47Tx95aPJCwm_8```
 
 - Body:
     ```json
@@ -206,7 +206,7 @@ Token作为识别用户是否登录的凭证，在请求需要认证的接口时
 
 - URL: ```.../user/info```
 
-- Headers: ```"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJzaHVhaV96aGFuZ19tZUAxNjMuY29tIn0.3MdkxWMpNVys_xqYKPd_0F0DUcs-o47Tx95aPJCwm_8"```
+- Headers: ```token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJzaHVhaV96aGFuZ19tZUAxNjMuY29tIn0.3MdkxWMpNVys_xqYKPd_0F0DUcs-o47Tx95aPJCwm_8```
 
     ```Content-Type:application/json```
 
@@ -249,4 +249,178 @@ Token作为识别用户是否登录的凭证，在请求需要认证的接口时
 #### 说明
 
 此接口需要认证
+
+## 文章模块
+
+### 1.新建文章
+
+#### Request
+
+- Method: **POST**
+
+- URL: ```.../article```
+
+- Headers: 
+
+  * Content-Type:application/json
+  * token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJzaHVhaV96aGFuZ19tZUAxNjMuY29tIn0.3MdkxWMpNVys_xqYKPd_0F0DUcs-o47Tx95aPJCwm_8
+
+- Body:
+
+  ```json
+  {
+      "title":"日记16日",
+      "author":1,
+      "publishTime":1559347200000,
+      "tag":1,
+      "content":"<p><h1>日记16日</h1></p>"
+  }
+  ```
+  
+  **注：作者使用用户ID，标签使用标签ID **
+
+#### Response
+
+- Body
+
+  ```json
+  {
+      "code": 200,
+      "message": "新建文章成功！",
+      "object": {
+          "data": {
+              "articleId": 9,
+              "author": {
+                  "articleNum": 0,
+                  "id": 1,
+                  "name": "jiuyoung",
+                  "starsNum": 0
+              },
+              "comments": 0,
+              "content": "<p><h1>日记18日</h1></p>",
+              "publishTime": 1559347200000,
+              "stars": 0,
+              "tag": "音乐",
+              "title": "日记18日"
+          }
+      }
+  }
+  ```
+
+#### 说明
+
+此接口需要认证
+
+### 2.点赞文章
+
+#### Request
+
+- Method: **POST**
+
+- URL: ```.../article/stars```
+
+- Headers: 
+  
+  * `token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJzaHVhaV96aGFuZ19tZUAxNjMuY29tIn0.3MdkxWMpNVys_xqYKPd_0F0DUcs-o47Tx95aPJCwm_8`
+- Params
+	
+	* `id:文章ID`
+	* `up:点赞true|取消false`
+- Body:
+
+  ```json
+  
+  ```
+  
+  **example: ?id=7&up=true**
+
+#### Response
+
+- Body
+
+  ```json
+  {
+      "code": 200,
+      "message": "sucess",
+      "object": {
+          "data": {
+              "articleId": 7,
+              "author": {
+                  "articleNum": 0,
+                  "id": 1,
+                  "name": "jiuyoung",
+                  "starsNum": 0
+              },
+              "comments": 0,
+              "content": "<p><h1>日记16日</h1></p>",
+              "publishTime": 1559347200000,
+              "stars": 3,
+              "tag": "音乐",
+              "title": "日记16日"
+          }
+      }
+  }
+  ```
+
+#### 说明
+
+此接口需要认证
+
+### 3.查看作者所有文章
+
+#### Request
+
+- Method: **GET**
+
+- URL: ```.../article/author```
+
+- Headers: 
+  
+  * `token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJzaHVhaV96aGFuZ19tZUAxNjMuY29tIn0.3MdkxWMpNVys_xqYKPd_0F0DUcs-o47Tx95aPJCwm_8`
+  
+- Params
+	
+	* `pageNum:1`可选
+	* `pageSize:5`可选
+	
+- Body:
+
+  ```json
+  
+  ```
+  
+
+#### Response
+
+- Body
+
+  ```json
+  {
+      "code": 200,
+      "message": "sucess",
+      "object": {
+          "data": {
+              "articleId": 7,
+              "author": {
+                  "articleNum": 0,
+                  "id": 1,
+                  "name": "jiuyoung",
+                  "starsNum": 0
+              },
+              "comments": 0,
+              "content": "<p><h1>日记16日</h1></p>",
+              "publishTime": 1559347200000,
+              "stars": 3,
+              "tag": "音乐",
+              "title": "日记16日"
+          }
+      }
+  }
+  ```
+
+#### 说明
+
+此接口需要认证
+
+### 4.通过文章ID查找文章
 
