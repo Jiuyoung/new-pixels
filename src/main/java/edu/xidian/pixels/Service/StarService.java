@@ -24,6 +24,15 @@ public class StarService {
     @Autowired
     private UserMapper userMapper;
 
+    public boolean notExist(int userId, int articleId) {
+        if(starMapper.findByArticleAndUser(articleId, userId) != null) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
     public List<Star> findByArticle(Integer articleId){
         if(articleId!=null){
             List<Star> stars=starMapper.findByArticle(articleId);

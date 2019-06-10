@@ -310,7 +310,7 @@ Token作为识别用户是否登录的凭证，在请求需要认证的接口时
 
 此接口需要认证
 
-### ~~2.点赞文章~~
+### 2.点赞文章
 
 #### Request
 
@@ -321,6 +321,7 @@ Token作为识别用户是否登录的凭证，在请求需要认证的接口时
 - Headers: 
   
   * `token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJzaHVhaV96aGFuZ19tZUAxNjMuY29tIn0.3MdkxWMpNVys_xqYKPd_0F0DUcs-o47Tx95aPJCwm_8`
+  * `Content-Type:application/json`
 - Params
 	
 	* `id:文章ID`
@@ -328,7 +329,10 @@ Token作为识别用户是否登录的凭证，在请求需要认证的接口时
 - Body:
 
   ```json
-  
+  {
+      "articleId":7,
+      "starTime":1559347200000
+  }
   ```
   
   **example: ?id=7&up=true**
@@ -345,15 +349,15 @@ Token作为识别用户是否登录的凭证，在请求需要认证的接口时
           "data": {
               "articleId": 7,
               "author": {
-                  "articleNum": 0,
+                  "articleNum": 1,
                   "id": 1,
                   "name": "jiuyoung",
-                  "starsNum": 0
+                  "starsNum": 1
               },
-              "comments": 0,
+              "comments": 1,
               "content": "<p><h1>日记16日</h1></p>",
               "publishTime": 1559347200000,
-              "stars": 3,
+              "stars": 1,
               "tag": "音乐",
               "title": "日记16日"
           }

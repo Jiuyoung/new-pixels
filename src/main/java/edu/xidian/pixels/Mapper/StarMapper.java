@@ -8,6 +8,9 @@ import java.util.List;
 @Mapper
 public interface StarMapper {
 
+    @Select("select * from star where article_id=#{articleId} and user_id=#{userId}")
+    Star findByUserAndArticle(int userId, int articleId);
+
     @Select("select * from star where id=#{id}")
     Star select(int id);
 
@@ -17,7 +20,7 @@ public interface StarMapper {
     @Select("select * from star where user_id=#{userId}")
     List<Star> findByUser(int userId);
 
-    @Select("select * from star where article_id=#{articleId} and" +
+    @Select("select * from star where article_id=#{articleId} and " +
             "user_id=#{userId}")
     Star findByArticleAndUser(int articleId,int userId);
 

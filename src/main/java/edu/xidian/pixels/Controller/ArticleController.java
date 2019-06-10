@@ -66,33 +66,33 @@ public class ArticleController {
     public ResponseObject upStars(@CurrentUser User user,
                                   @RequestBody Star star,
                                   @RequestParam(name = "up",defaultValue = "true") Boolean up){
-        int temp=up?1:-1;
         ResponseObject o;
-        if(user.getId()!=star.getUserId()){
-            o=ResponseObject.getFailResponse("用户不对应");
+        Article article=articleService.getArticle(star.getArticleId());
+        if(article==null){
+            o=ResponseObject.getFailResponse("文章不存在");
         }
         else {
-            Article article=articleService.getArticle(star.getArticleId());
-            if(article==null){
-                o=ResponseObject.getFailResponse("文章不存在");
+            star.setUserId(user.getId());
+            if(!starService.notExist(user.getId(), star.getArticleId())) {
+                up = false;
             }
-            else {
-                article.setStars(article.getStars()+temp);
-                ArticleVO articleVO=articleService.editStars(article);
-                if(up?starService.insert(star):starService.delete(star.getId())) {
-                    //修改作者的点赞总数
-                    User author=userService.findById(article.getAuthor());
-                    author.setStarsNum(up?author.getStarsNum()+1:author.getStarsNum()-1);
-                    if(userService.editStarsNum(author)) {
-                        o = ResponseObject.getSuccessResponse();
-                        o.putValue("data", articleVO);
-                    }
-                    else
-                        o=ResponseObject.getFailResponse("更新作者点赞失败");
+            int temp=up?1:-1;
+            article.setStars(article.getStars()+temp);
+            ArticleVO articleVO=articleService.editStars(article);
+            if(up?starService.insert(star):starService.delete(star.getId())) {
+                //修改作者的点赞总数
+                User author=userService.findById(article.getAuthor());
+                author.setStarsNum(up?author.getStarsNum()+1:author.getStarsNum()-1);
+                if(userService.editStarsNum(author)) {
+                    articleVO.getAuthor().setStarsNum(author.getStarsNum());
+                    o = ResponseObject.getSuccessResponse();
+                    o.putValue("data", articleVO);
                 }
                 else
-                    o=ResponseObject.getFailResponse("更新点赞失败");
+                    o=ResponseObject.getFailResponse("更新作者点赞失败");
             }
+            else
+                o=ResponseObject.getFailResponse("更新点赞失败");
         }
         return o;
     }
