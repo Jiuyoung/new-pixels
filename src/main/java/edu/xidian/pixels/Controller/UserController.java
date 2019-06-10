@@ -2,7 +2,6 @@ package edu.xidian.pixels.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +20,6 @@ import edu.xidian.pixels.VO.UserAccount;
 /**
  * UserController
  */
-@CrossOrigin
 @RestController
 @RequestMapping("/user")
 public class UserController {

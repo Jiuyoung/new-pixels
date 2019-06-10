@@ -57,7 +57,6 @@ public class ArticleController {
         return o;
     }
 
-    @CrossOrigin
     @UserLoginToken
     @GetMapping("/author")
     public ResponseObject findByAuthor(@CurrentUser User user,
@@ -73,7 +72,6 @@ public class ArticleController {
         return o;
     }
 
-    @CrossOrigin
     @UserLoginToken
     @PostMapping("/stars")
     public ResponseObject upStars(@CurrentUser User user, @RequestBody Star star,
@@ -106,7 +104,6 @@ public class ArticleController {
         return o;
     }
 
-    @CrossOrigin
     @UserLoginToken
     @PostMapping("")
     public ResponseObject insert(@CurrentUser User user, @RequestBody Article article) {
