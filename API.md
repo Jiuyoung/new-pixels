@@ -389,6 +389,78 @@ Token作为识别用户是否登录的凭证，在请求需要认证的接口时
   
   ```
   
+  **Example：`?pageNum=1&pageSize=2`**
+
+#### Response
+
+- Body
+
+  ```json
+  {
+      "code": 200,
+      "message": "sucess",
+      "object": {
+          "data": [
+              {
+                  "articleId": 7,
+                  "author": {
+                      "articleNum": 0,
+                      "id": 1,
+                      "name": "jiuyoung",
+                      "starsNum": 0
+                  },
+                  "comments": 0,
+                  "content": "<p><h1>日记16日</h1></p>",
+                  "publishTime": 1559347200000,
+                  "stars": 3,
+                  "tag": "音乐",
+                  "title": "日记16日"
+              },
+              {
+                  "articleId": 8,
+                  "author": {
+                      "articleNum": 0,
+                      "id": 1,
+                      "name": "jiuyoung",
+                      "starsNum": 0
+                  },
+                  "comments": 0,
+                  "content": "<p><h1>日记17日</h1></p>",
+                  "publishTime": 1559347200000,
+                  "stars": 0,
+                  "tag": "音乐",
+                  "title": "日记17日"
+              }
+          ]
+      }
+  }
+  ```
+
+#### 说明
+
+此接口需要认证
+
+### 4.通过文章ID查找文章 
+
+#### Request
+
+- Method: **GET**
+- URL: ```.../article/id```
+- Headers: 
+
+
+
+- Params
+	
+	* `id:文章ID`
+	
+- Body:
+
+  ```json
+  
+  ```
+  
+  **Example：`?id=2`**
 
 #### Response
 
@@ -400,19 +472,19 @@ Token作为识别用户是否登录的凭证，在请求需要认证的接口时
       "message": "sucess",
       "object": {
           "data": {
-              "articleId": 7,
+              "articleId": 2,
               "author": {
                   "articleNum": 0,
-                  "id": 1,
-                  "name": "jiuyoung",
+                  "id": 4,
+                  "name": "lzq",
                   "starsNum": 0
               },
-              "comments": 0,
-              "content": "<p><h1>日记16日</h1></p>",
-              "publishTime": 1559347200000,
-              "stars": 3,
-              "tag": "音乐",
-              "title": "日记16日"
+              "comments": 1,
+              "content": "rt",
+              "publishTime": 1555200000,
+              "stars": 0,
+              "tag": "讨论",
+              "title": "你写代码像cxk"
           }
       }
   }
@@ -420,7 +492,4 @@ Token作为识别用户是否登录的凭证，在请求需要认证的接口时
 
 #### 说明
 
-此接口需要认证
-
-### 4.通过文章ID查找文章
-
+此接口不需要认证
