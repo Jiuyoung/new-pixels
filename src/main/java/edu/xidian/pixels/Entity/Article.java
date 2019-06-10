@@ -23,6 +23,7 @@ public class Article implements Serializable {
     private int author;
     private Date publishTime;
     private int tag;
+    private String summary;
     private String content;
     private int stars;
     private int comments;//评论数

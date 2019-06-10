@@ -17,8 +17,8 @@ public interface ArticleMapper {
     @Select("select * from article where author=#{author}")
     List<Article> findByAuthor(int author);
 
-    @Insert("insert into article(title,author,publish_time,tag,content,stars,comments)" +
-            " values(#{title},#{author},#{publishTime},#{tag},#{content},#{stars}," +
+    @Insert("insert into article(title,author,publish_time,tag,summary,content,stars,comments)" +
+            " values(#{title},#{author},#{publishTime},#{tag},#{summary},#{content},#{stars}," +
             "#{comments})")
     @Options(useGeneratedKeys = true,keyProperty = "id")
     int insert(Article article);
@@ -31,7 +31,7 @@ public interface ArticleMapper {
     @Update("update article set stars=#{stars} where id=#{id}")
     int editStars(Article article);
 
-    //挑选点赞数大于某值的文章
-    @Select("select * from article where stars>#{stars}")
-    List<Article> recommend(int stars);
+    //按照点赞数和评论数进行推荐
+    @Select("select * from article order by stars desc, comments desc")
+    List<Article> recommend();
 }
