@@ -34,17 +34,17 @@ public class GloablExceptionHandler {
         o.setMessage(errorMsg.toString());
         return o;
     }
-    // @ExceptionHandler(Exception.class)
-    // @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    // public Object handleException(Exception e) {
-    //     String message = e.getMessage();
-    //     ResponseObject o;
-    //     if(StringUtils.isEmpty(message) || StringUtils.isBlank(message)) {
-    //         o = ResponseObject.getFailResponse();
-    //     }
-    //     else {
-    //         o = ResponseObject.getFailResponse(message);
-    //     }
-    //     return o;
-    // }
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public Object handleException(Exception e) {
+        String message = e.getMessage();
+        ResponseObject o;
+        if(StringUtils.isEmpty(message) || StringUtils.isBlank(message)) {
+            o = ResponseObject.getFailResponse();
+        }
+        else {
+            o = ResponseObject.getFailResponse(message);
+        }
+        return o;
+    }
 }
