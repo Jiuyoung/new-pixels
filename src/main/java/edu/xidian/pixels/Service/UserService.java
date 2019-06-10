@@ -77,4 +77,27 @@ public class UserService {
             return null;
         }
     }
+
+    public boolean editStarsNum(User user){
+        if(user!=null){
+            if(userMapper.editStarsNum(user)==1)
+                return true;
+        }
+        return false;
+    }
+
+    public boolean editArticleNum(User user){
+        if(user!=null){
+            if(userMapper.editArticleNum(user)==1)
+                return true;
+        }
+        return false;
+    }
+
+    public User findById(Integer id){
+        if(id!=null){
+            return userMapper.findById(id);
+        }
+        return null;
+    }
 }

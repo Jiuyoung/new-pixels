@@ -7,6 +7,7 @@ import edu.xidian.pixels.Entity.Star;
 import edu.xidian.pixels.Entity.User;
 import edu.xidian.pixels.Service.ArticleService;
 import edu.xidian.pixels.Service.StarService;
+import edu.xidian.pixels.Service.UserService;
 import edu.xidian.pixels.VO.ArticleVO;
 import edu.xidian.pixels.VO.ResponseObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class ArticleController {
 
     @Autowired
     private StarService starService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/id")
     public ResponseObject findById(@RequestParam(name = "id") Integer id){
@@ -76,8 +80,15 @@ public class ArticleController {
                 article.setStars(article.getStars()+temp);
                 ArticleVO articleVO=articleService.editStars(article);
                 if(up?starService.insert(star):starService.delete(star.getId())) {
-                    o=ResponseObject.getSuccessResponse();
-                    o.putValue("data", articleVO);
+                    //修改作者的点赞总数
+                    User author=userService.findById(article.getAuthor());
+                    author.setStarsNum(up?author.getStarsNum()+1:author.getStarsNum()-1);
+                    if(userService.editStarsNum(author)) {
+                        o = ResponseObject.getSuccessResponse();
+                        o.putValue("data", articleVO);
+                    }
+                    else
+                        o=ResponseObject.getFailResponse("更新作者点赞失败");
                 }
                 else
                     o=ResponseObject.getFailResponse("更新点赞失败");
@@ -93,8 +104,13 @@ public class ArticleController {
         if(article != null){
             article.setAuthor(user.getId());
             if(articleService.insert(article)) {
-                o = ResponseObject.getSuccessResponse("新建文章成功！");
-                o.putValue("data", articleService.findById(article.getId()));
+                user.setArticleNum(user.getArticleNum()+1);
+                if(userService.editArticleNum(user)) {
+                    o = ResponseObject.getSuccessResponse("新建文章成功！");
+                    o.putValue("data", articleService.findById(article.getId()));
+                }
+                else
+                    o=ResponseObject.getFailResponse("更新文章总数失败");
             }
             else
                 o = ResponseObject.getFailResponse("新建文章失败！");
