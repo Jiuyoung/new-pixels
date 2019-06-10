@@ -77,6 +77,25 @@ public class ArticleService {
         return null;
     }
 
+    @Transactional
+    public List<ArticleVO> recommend(Integer pageNum, Integer pageSize) {
+        List<ArticleVO> voList=new ArrayList<>();
+        PageHelper.startPage(pageNum, pageSize);
+        List<Article> list = articleMapper.recommend();
+        if(list != null && !list.isEmpty()) {
+            for (Article article:list){
+                User user = userMapper.findById(article.getAuthor());
+                AuthorVO authorVO = AuthorVO.trans(user);
+                Tags tags = tagsMapper.findById(article.getTag());
+                if(tags != null){
+                    voList.add(ArticleVO.trans(article,authorVO,tags));
+                }
+            }
+            return voList;
+        }
+        return null;     
+    }
+
     /**
      * 返回文章，非VO
      * @param id

@@ -503,6 +503,78 @@ Token作为识别用户是否登录的凭证，在请求需要认证的接口时
 
 此接口不需要认证
 
+### 5.获取推荐文章
+
+#### Request
+
+* Method:**GET**
+
+* URL:`.../article/all`
+
+* Headers:
+
+* Params:
+
+  * `pageNum:页数`
+  * `pageSize:页面大小`
+
+* Body:
+
+  ```
+  
+  ```
+
+  **Example:`?pageNum=1&pageSize=2`**
+
+#### Response
+
+* Body
+
+  ```
+  {
+      "code": 200,
+      "message": "sucess",
+      "object": {
+          "data": [
+              {
+                  "articleId": 7,
+                  "author": {
+                      "articleNum": 1,
+                      "id": 1,
+                      "name": "jiuyoung",
+                      "starsNum": 1
+                  },
+                  "comments": 1,
+                  "content": "<p><h1>日记16日</h1></p>",
+                  "publishTime": 1559347200000,
+                  "stars": 1,
+                  "summary": "这里是摘要",
+                  "tag": "音乐",
+                  "title": "日记16日"
+              },
+              {
+                  "articleId": 3,
+                  "author": {
+                      "articleNum": 0,
+                      "id": 4,
+                      "name": "lzq",
+                      "starsNum": 0
+                  },
+                  "comments": 4,
+                  "content": "rt",
+                  "publishTime": 1555200000,
+                  "stars": 0,
+                  "summary": "这里是摘要",
+                  "tag": "讨论",
+                  "title": "测试"
+              }
+          ]
+      }
+  }
+  ```
+
+  
+
 ## 评论模块
 
 ### 1.新增评论

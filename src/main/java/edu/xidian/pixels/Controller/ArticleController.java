@@ -31,6 +31,20 @@ public class ArticleController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("/all") 
+    public ResponseObject recommend(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
+                            @RequestParam(name = "pageSize", defaultValue = "5") int pageSize) {
+        ResponseObject o;
+        List<ArticleVO> articleVOList = articleService.recommend(pageNum, pageSize);
+        if(articleVOList!=null && !articleVOList.isEmpty()){
+            o=ResponseObject.getSuccessResponse();
+            o.putValue("data",articleVOList);
+        }
+        else
+            o=ResponseObject.getFailResponse("文章不存在！");
+        return o;
+    }
+
     @GetMapping("/id")
     public ResponseObject findById(@RequestParam(name = "id") Integer id){
         ResponseObject o;
