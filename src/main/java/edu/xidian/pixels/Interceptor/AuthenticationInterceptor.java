@@ -51,22 +51,22 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         String token = request.getHeader("token");
-        if(!(handler instanceof HandlerMethod)){
+        if (!(handler instanceof HandlerMethod)) {
             return true;
         }
 
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         Method method = handlerMethod.getMethod();
-        if(method.isAnnotationPresent(PassToken.class)) {
+        if (method.isAnnotationPresent(PassToken.class)) {
             PassToken passToken = method.getAnnotation(PassToken.class);
-            if(passToken.required()) {
+            if (passToken.required()) {
                 return true;
             }
         }
-        if(method.isAnnotationPresent(UserLoginToken.class)) {
+        if (method.isAnnotationPresent(UserLoginToken.class)) {
             UserLoginToken userLoginToken = method.getAnnotation(UserLoginToken.class);
-            if(userLoginToken.required()) {
-                if(token == null) {
+            if (userLoginToken.required()) {
+                if (token == null) {
                     response.setStatus(HttpStatus.UNAUTHORIZED.value());
                     throw new RuntimeException("无效token，请重新登录!");
                 }
@@ -79,7 +79,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                     throw new RuntimeException("服务器出错!");
                 }
 
-                if(tokenService.hasToken(userAccount)) {
+                if (tokenService.hasToken(userAccount)) {
                     String uuid = tokenService.findUUID(userAccount);
                     JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(uuid)).build();
                     try {
@@ -92,8 +92,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                     tokenService.updateToken(userAccount, token);
                     request.setAttribute("CurrentUser", user);
                     return true;
-                }
-                else {
+                } else {
                     response.setStatus(HttpStatus.UNAUTHORIZED.value());
                     throw new RuntimeException("登录失效，请重新登录!");
                 }
@@ -102,5 +101,4 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         return true;
     }
 
-    
 }

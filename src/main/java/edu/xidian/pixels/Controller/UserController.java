@@ -2,6 +2,7 @@ package edu.xidian.pixels.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +21,7 @@ import edu.xidian.pixels.VO.UserAccount;
 /**
  * UserController
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -33,11 +35,10 @@ public class UserController {
     @GetMapping("/info")
     public ResponseObject find(@CurrentUser User u) {
         ResponseObject o;
-        if(u != null) {
+        if (u != null) {
             o = ResponseObject.getSuccessResponse();
             o.putValue("data", u);
-        }
-        else {
+        } else {
             o = ResponseObject.getFailResponse("用户未登录");
         }
         return o;
@@ -48,11 +49,10 @@ public class UserController {
     public ResponseObject edit(@RequestBody User user) {
         ResponseObject o;
         User u = userService.update(user);
-        if(null != u) {
+        if (null != u) {
             o = ResponseObject.getSuccessResponse("修改成功");
             o.putValue("data", u);
-        }
-        else {
+        } else {
             o = ResponseObject.getFailResponse("修改失败");
         }
         return o;
@@ -62,11 +62,10 @@ public class UserController {
     public ResponseObject insert(@RequestBody @Validated User user) {
         ResponseObject o;
         User u = userService.insert(user);
-        if(u != null) {
+        if (u != null) {
             o = ResponseObject.getSuccessResponse();
             o.putValue("data", u);
-        }
-        else {
+        } else {
             o = ResponseObject.getFailResponse("新建用户失败");
         }
         return o;
@@ -76,17 +75,16 @@ public class UserController {
     public ResponseObject login(@RequestBody @Validated UserAccount account) {
         ResponseObject o;
         User user = userService.login(account.getAccount(), account.getPassword());
-        if(null != user) {
+        if (null != user) {
             o = ResponseObject.getSuccessResponse("登录成功");
             o.putValue("token", tokenService.getToken(user));
             o.putValue("data", user);
-        }
-        else {
+        } else {
             o = ResponseObject.getFailResponse("账户不存在或者密码错误");
         }
         return o;
     }
-    
+
     @GetMapping("/find")
     public User findUser(@RequestParam(name = "account") String account) {
         return userService.findByAccount(account);

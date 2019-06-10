@@ -33,7 +33,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Autowired
     private CurrentUserMethodArgumentResolver resolver;
 
-
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(interceptor).addPathPatterns("/**");
@@ -57,9 +56,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
         }
         FastJsonHttpMessageConverter fastConverter = new FastJsonHttpMessageConverter();
         FastJsonConfig fastJsonConfig = new FastJsonConfig();
-        fastJsonConfig.setSerializerFeatures(SerializerFeature.PrettyFormat, 
-                                                SerializerFeature.WriteMapNullValue, 
-                                                SerializerFeature.QuoteFieldNames);
+        fastJsonConfig.setSerializerFeatures(SerializerFeature.PrettyFormat, SerializerFeature.WriteMapNullValue,
+                SerializerFeature.QuoteFieldNames);
         List<MediaType> fastMediaTypes = new ArrayList<>();
         fastMediaTypes.add(MediaType.APPLICATION_JSON_UTF8);
         fastConverter.setSupportedMediaTypes(fastMediaTypes);

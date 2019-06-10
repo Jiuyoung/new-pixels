@@ -31,105 +31,98 @@ public class ArticleController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/all") 
+    @GetMapping("/all")
     public ResponseObject recommend(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
-                            @RequestParam(name = "pageSize", defaultValue = "5") int pageSize) {
+            @RequestParam(name = "pageSize", defaultValue = "5") int pageSize) {
         ResponseObject o;
         List<ArticleVO> articleVOList = articleService.recommend(pageNum, pageSize);
-        if(articleVOList!=null && !articleVOList.isEmpty()){
-            o=ResponseObject.getSuccessResponse();
-            o.putValue("data",articleVOList);
-        }
-        else
-            o=ResponseObject.getFailResponse("文章不存在！");
+        if (articleVOList != null && !articleVOList.isEmpty()) {
+            o = ResponseObject.getSuccessResponse();
+            o.putValue("data", articleVOList);
+        } else
+            o = ResponseObject.getFailResponse("文章不存在！");
         return o;
     }
 
     @GetMapping("/id")
-    public ResponseObject findById(@RequestParam(name = "id") Integer id){
+    public ResponseObject findById(@RequestParam(name = "id") Integer id) {
         ResponseObject o;
-        ArticleVO articleVO=articleService.findById(id);
-        if(articleVO!=null){
-            o=ResponseObject.getSuccessResponse();
-            o.putValue("data",articleVO);
-        }
-        else {
-            o=ResponseObject.getFailResponse("文章不存在！");
+        ArticleVO articleVO = articleService.findById(id);
+        if (articleVO != null) {
+            o = ResponseObject.getSuccessResponse();
+            o.putValue("data", articleVO);
+        } else {
+            o = ResponseObject.getFailResponse("文章不存在！");
         }
         return o;
     }
 
+    @CrossOrigin
     @UserLoginToken
     @GetMapping("/author")
     public ResponseObject findByAuthor(@CurrentUser User user,
-                                    @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
-                                    @RequestParam(name = "pageSize", defaultValue = "5") int pageSize) {
+            @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
+            @RequestParam(name = "pageSize", defaultValue = "5") int pageSize) {
         ResponseObject o;
-        List<ArticleVO> articleVOList=articleService.findByAuthor(user.getId(), pageNum, pageSize);
-        if(articleVOList!=null && !articleVOList.isEmpty()){
-            o=ResponseObject.getSuccessResponse();
-            o.putValue("data",articleVOList);
-        }
-        else
-            o=ResponseObject.getFailResponse("文章不存在！");
+        List<ArticleVO> articleVOList = articleService.findByAuthor(user.getId(), pageNum, pageSize);
+        if (articleVOList != null && !articleVOList.isEmpty()) {
+            o = ResponseObject.getSuccessResponse();
+            o.putValue("data", articleVOList);
+        } else
+            o = ResponseObject.getFailResponse("文章不存在！");
         return o;
     }
 
+    @CrossOrigin
     @UserLoginToken
     @PostMapping("/stars")
-    public ResponseObject upStars(@CurrentUser User user,
-                                  @RequestBody Star star,
-                                  @RequestParam(name = "up",defaultValue = "true") Boolean up){
+    public ResponseObject upStars(@CurrentUser User user, @RequestBody Star star,
+            @RequestParam(name = "up", defaultValue = "true") Boolean up) {
         ResponseObject o;
-        Article article=articleService.getArticle(star.getArticleId());
-        if(article==null){
-            o=ResponseObject.getFailResponse("文章不存在");
-        }
-        else {
+        Article article = articleService.getArticle(star.getArticleId());
+        if (article == null) {
+            o = ResponseObject.getFailResponse("文章不存在");
+        } else {
             star.setUserId(user.getId());
-            if(!starService.notExist(user.getId(), star.getArticleId())) {
+            if (!starService.notExist(user.getId(), star.getArticleId())) {
                 up = false;
             }
-            int temp=up?1:-1;
-            article.setStars(article.getStars()+temp);
-            ArticleVO articleVO=articleService.editStars(article);
-            if(up?starService.insert(star):starService.delete(star.getId())) {
-                //修改作者的点赞总数
-                User author=userService.findById(article.getAuthor());
-                author.setStarsNum(up?author.getStarsNum()+1:author.getStarsNum()-1);
-                if(userService.editStarsNum(author)) {
+            int temp = up ? 1 : -1;
+            article.setStars(article.getStars() + temp);
+            ArticleVO articleVO = articleService.editStars(article);
+            if (up ? starService.insert(star) : starService.delete(star.getId())) {
+                // 修改作者的点赞总数
+                User author = userService.findById(article.getAuthor());
+                author.setStarsNum(up ? author.getStarsNum() + 1 : author.getStarsNum() - 1);
+                if (userService.editStarsNum(author)) {
                     articleVO.getAuthor().setStarsNum(author.getStarsNum());
                     o = ResponseObject.getSuccessResponse();
                     o.putValue("data", articleVO);
-                }
-                else
-                    o=ResponseObject.getFailResponse("更新作者点赞失败");
-            }
-            else
-                o=ResponseObject.getFailResponse("更新点赞失败");
+                } else
+                    o = ResponseObject.getFailResponse("更新作者点赞失败");
+            } else
+                o = ResponseObject.getFailResponse("更新点赞失败");
         }
         return o;
     }
 
+    @CrossOrigin
     @UserLoginToken
     @PostMapping("")
     public ResponseObject insert(@CurrentUser User user, @RequestBody Article article) {
         ResponseObject o;
-        if(article != null){
+        if (article != null) {
             article.setAuthor(user.getId());
-            if(articleService.insert(article)) {
-                user.setArticleNum(user.getArticleNum()+1);
-                if(userService.editArticleNum(user)) {
+            if (articleService.insert(article)) {
+                user.setArticleNum(user.getArticleNum() + 1);
+                if (userService.editArticleNum(user)) {
                     o = ResponseObject.getSuccessResponse("新建文章成功！");
                     o.putValue("data", articleService.findById(article.getId()));
-                }
-                else
-                    o=ResponseObject.getFailResponse("更新文章总数失败");
-            }
-            else
+                } else
+                    o = ResponseObject.getFailResponse("更新文章总数失败");
+            } else
                 o = ResponseObject.getFailResponse("新建文章失败！");
-        }
-        else
+        } else
             o = ResponseObject.getFailResponse("新建文章失败！");
         return o;
     }
