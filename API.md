@@ -379,8 +379,8 @@ Token作为识别用户是否登录的凭证，在请求需要认证的接口时
   
 - Params
 	
-	* `pageNum:1`可选
-	* `pageSize:5`可选
+	* `pageNum:当前页数`可选
+	* `pageSize:页面大小`可选
 	
 - Body:
 
@@ -527,6 +527,56 @@ Token作为识别用户是否登录的凭证，在请求需要认证的接口时
   {
       "code": 200,
       "message": "评论成功！",
+      "object": {
+          "data": {
+              "articleId": 7,
+              "id": 8,
+              "message": "文章一点都不好看",
+              "time": 1559347200000,
+              "userId": 1
+          }
+      }
+  }
+  ```
+  
+  
+
+#### 说明
+
+此接口需要认证
+
+### 2.删除评论
+
+#### Request
+
+- Method: **DELETE**
+
+- URL: ```.../comment```
+
+- Headers:
+
+  * `token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJzaHVhaV96aGFuZ19tZUAxNjMuY29tIn0.3MdkxWMpNVys_xqYKPd_0F0DUcs-o47Tx95aPJCwm_8`
+  
+- Param:
+
+  * `id:评论ID `
+
+- Body:
+
+  ```json
+  
+  ```
+
+  **Example:`?id=7`**
+
+#### Response
+
+- Body
+
+  ```json
+  {
+      "code": 200,
+      "message": "删除成功！",
       "object": {}
   }
   ```
@@ -536,4 +586,176 @@ Token作为识别用户是否登录的凭证，在请求需要认证的接口时
 #### 说明
 
 此接口需要认证
+
+### 3.通过评论ID查找评论
+
+#### Request
+
+- Method: **GET**
+
+- URL: ```.../comment```
+
+- Headers:
+
+  * 
+  
+- Param:
+
+  * `id:评论ID `
+
+- Body:
+
+  ```json
+  
+  ```
+
+  **Example:`?id=7`**
+
+#### Response
+
+- Body
+
+  ```json
+  {
+      "code": 200,
+      "message": "sucess",
+      "object": {
+          "data": {
+              "articleId": 7,
+              "id": 8,
+              "message": "文章一点都不好看",
+              "time": 1559347200000,
+              "userId": 1
+          }
+      }
+  }
+  ```
+  
+  
+
+#### 说明
+
+此接口不需要认证
+
+### 4.查找文章对应的评论
+
+#### Request
+
+- Method: **GET**
+
+- URL: ```.../comment/article```
+
+- Headers:
+
+  * 
+  
+- Param:
+
+  * `id:文章ID `
+  * `pageNum:当前页数`**可选**
+  * `pageSize:页面大小`**可选**
+
+- Body:
+
+  ```json
+  
+  ```
+
+  **Example:`?id=7&pageNum=1&pageSize=2`**
+
+#### Response
+
+- Body
+
+  ```json
+  {
+      "code": 200,
+      "message": "sucess",
+      "object": {
+          "data": [
+              {
+                  "articleId": 3,
+                  "id": 3,
+                  "message": "你测试代码也像cxk",
+                  "time": 1555200000,
+                  "userId": 4
+              },
+              {
+                  "articleId": 3,
+                  "id": 4,
+                  "message": "你测试代码也像cxk",
+                  "time": 1555200000,
+                  "userId": 4
+              }
+          ]
+      }
+  }
+  ```
+  
+  
+
+#### 说明
+
+此接口不需要认证
+
+### 5.查找用户所有的评论
+
+#### Request
+
+- Method: **GET**
+
+- URL: ```.../comment/user```
+
+- Headers:
+
+  * 
+  
+- Param:
+
+  * `id:用户ID `
+  * `pageNum:当前页数`**可选**
+  * `pageSize:页面大小`**可选**
+
+- Body:
+
+  ```json
+  
+  ```
+
+  **Example:`?id=7&pageNum=1&pageSize=2`**
+
+#### Response
+
+- Body
+
+  ```json
+  {
+      "code": 200,
+      "message": "sucess",
+      "object": {
+          "data": [
+              {
+                  "articleId": 2,
+                  "id": 1,
+                  "message": "鸡你太美",
+                  "time": 1555200000,
+                  "userId": 4
+              },
+              {
+                  "articleId": 3,
+                  "id": 3,
+                  "message": "你测试代码也像cxk",
+                  "time": 1555200000,
+                  "userId": 4
+              }
+          ]
+      }
+  }
+  ```
+  
+  
+
+#### 说明
+
+此接口不需要认证
 

@@ -35,8 +35,9 @@ public class CommentService {
         return null;
     }
 
-    public List<Comment> findByArticle(Integer articleId){
+    public List<Comment> findByArticle(Integer articleId, Integer pageNum, Integer pageSize){
         if(articleId!=null){
+            PageHelper.startPage(pageNum, pageSize);
             List<Comment> comments=commentMapper.selectByArticle(articleId);
             if(comments!=null)
                 return comments;
@@ -44,9 +45,9 @@ public class CommentService {
         return null;
     }
 
-    public List<Comment> findByUser(Integer userId){
+    public List<Comment> findByUser(Integer userId, Integer pageNum, Integer pageSize){
         if(userId!=null){
-            PageHelper.startPage(1, 2);
+            PageHelper.startPage(pageNum, pageSize);
             List<Comment> comments=commentMapper.selectByUser(userId);
             return comments;
         }

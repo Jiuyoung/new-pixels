@@ -18,7 +18,7 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-    @GetMapping("/id")
+    @GetMapping("")
     public ResponseObject findById(@RequestParam(name="id") Integer id){
         ResponseObject o;
         Comment comment=commentService.findById(id);
@@ -32,9 +32,11 @@ public class CommentController {
     }
 
     @GetMapping("/article")
-    public ResponseObject findByArticle(@RequestParam(name = "id") Integer id){
+    public ResponseObject findByArticle(@RequestParam(name = "id") Integer id,
+                                    @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
+                                    @RequestParam(name = "pageSize", defaultValue = "5") int pageSize){
         ResponseObject o;
-        List<Comment> comments=commentService.findByArticle(id);
+        List<Comment> comments=commentService.findByArticle(id, pageNum, pageSize);
         if(comments!=null && !comments.isEmpty()){
             o=ResponseObject.getSuccessResponse();
             o.putValue("data",comments);
@@ -45,9 +47,11 @@ public class CommentController {
     }
 
     @GetMapping("/user")
-    public ResponseObject findByUser(@RequestParam(name = "id") Integer id){
+    public ResponseObject findByUser(@RequestParam(name = "id") Integer id,
+                                @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
+                                @RequestParam(name = "pageSize", defaultValue = "5") int pageSize){
         ResponseObject o;
-        List<Comment> comments=commentService.findByUser(id);
+        List<Comment> comments=commentService.findByUser(id, pageNum, pageSize);
         if(comments!=null && !comments.isEmpty()){
             o=ResponseObject.getSuccessResponse();
             o.putValue("data",comments);
@@ -63,8 +67,10 @@ public class CommentController {
         ResponseObject o;
         if(comment!=null) {
             comment.setUserId(user.getId());
-            if(commentService.insert(comment))
+            if(commentService.insert(comment)) {
                 o=ResponseObject.getSuccessResponse("评论成功！");
+                o.putValue("data", comment);
+            }
             else
                 o=ResponseObject.getFailResponse("评论失败！");
         }
@@ -84,7 +90,7 @@ public class CommentController {
                 o=ResponseObject.getFailResponse("删除失败");
         }
         else
-            o=ResponseObject.getFailResponse("评论id为null");
+            o=ResponseObject.getFailResponse("删除失败");
         return o;
     }
 }
