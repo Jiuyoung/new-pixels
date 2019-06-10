@@ -27,6 +27,7 @@ public interface ArticleMapper {
             ",comments=#{comments} where id=#{id}")
     int update(Article article);
 
+    //只修改点赞数
     @Update("update article set stars=#{stars} where id=#{id}")
     int editStars(Article article);
 

@@ -4,6 +4,7 @@ import edu.xidian.pixels.Entity.Article;
 import edu.xidian.pixels.Entity.Tags;
 import edu.xidian.pixels.Entity.User;
 import edu.xidian.pixels.Mapper.ArticleMapper;
+import edu.xidian.pixels.Mapper.StarMapper;
 import edu.xidian.pixels.Mapper.TagsMapper;
 import edu.xidian.pixels.Mapper.UserMapper;
 import edu.xidian.pixels.VO.ArticleVO;

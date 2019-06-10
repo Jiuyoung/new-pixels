@@ -52,6 +52,7 @@ public class CommentService {
         }
         return null;
     }
+
     @CachePut(value = "redisCache",
         key = "'redis_comment_' + #comment.getId()")
     public boolean insert(Comment comment){

@@ -3,8 +3,10 @@ package edu.xidian.pixels.Controller;
 import edu.xidian.pixels.Annotation.CurrentUser;
 import edu.xidian.pixels.Annotation.UserLoginToken;
 import edu.xidian.pixels.Entity.Article;
+import edu.xidian.pixels.Entity.Star;
 import edu.xidian.pixels.Entity.User;
 import edu.xidian.pixels.Service.ArticleService;
+import edu.xidian.pixels.Service.StarService;
 import edu.xidian.pixels.VO.ArticleVO;
 import edu.xidian.pixels.VO.ResponseObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class ArticleController {
 
     @Autowired
     private ArticleService articleService;
+
+    @Autowired
+    private StarService starService;
 
     @GetMapping("/id")
     public ResponseObject findById(@RequestParam(name = "id") Integer id){
@@ -54,23 +59,28 @@ public class ArticleController {
 
     @UserLoginToken
     @PostMapping("/stars")
-    public ResponseObject upStars(@RequestParam(name = "id") Integer id,
+    public ResponseObject upStars(@CurrentUser User user,
+                                  @RequestBody Star star,
                                   @RequestParam(name = "up",defaultValue = "true") Boolean up){
         int temp=up?1:-1;
         ResponseObject o;
-        Article article=articleService.getArticle(id);
-        if(article!=null){
-            article.setStars(article.getStars()+temp);
-            ArticleVO articleVO=articleService.editStars(article);
-            if(articleVO!=null){
-                o=ResponseObject.getSuccessResponse();
-                o.putValue("data",articleVO);
-            }
-            else
-                o=ResponseObject.getFailResponse("点赞+1失败");
+        if(user.getId()!=star.getUserId()){
+            o=ResponseObject.getFailResponse("用户不对应");
         }
-        else
-            o=ResponseObject.getFailResponse("文章不存在");
+        else {
+            Article article=articleService.getArticle(star.getArticleId());
+            if(article==null){
+                o=ResponseObject.getFailResponse("文章不存在");
+            }
+            else {
+                article.setStars(article.getStars()+temp);
+                ArticleVO articleVO=articleService.editStars(article);
+                if(up?starService.insert(star):starService.delete(star.getId()))
+                    o=ResponseObject.getSuccessResponse();
+                else
+                    o=ResponseObject.getFailResponse("更新点赞失败");
+            }
+        }
         return o;
     }
 
