@@ -615,7 +615,12 @@ Token作为识别用户是否登录的凭证，在请求需要认证的接口时
               "id": 8,
               "message": "文章一点都不好看",
               "time": 1559347200000,
-              "userId": 1
+              "author": {
+                  "articleNum": 12,
+                  "id": 1,
+                  "name": "jiuyoung",
+                  "starsNum": 1
+              },
           }
       }
   }
@@ -704,10 +709,15 @@ Token作为识别用户是否登录的凭证，在请求需要认证的接口时
       "object": {
           "data": {
               "articleId": 7,
+              "author": {
+                  "articleNum": 12,
+                  "id": 1,
+                  "name": "jiuyoung",
+                  "starsNum": 1
+              },
               "id": 8,
               "message": "文章一点都不好看",
-              "time": 1559347200000,
-              "userId": 1
+              "time": 1559347200000
           }
       }
   }
@@ -760,14 +770,24 @@ Token作为识别用户是否登录的凭证，在请求需要认证的接口时
                   "id": 3,
                   "message": "你测试代码也像cxk",
                   "time": 1555200000,
-                  "userId": 4
+                  "author": {
+                      "articleNum": 12,
+                      "id": 1,
+                      "name": "jiuyoung",
+                      "starsNum": 1
+                  },
               },
               {
                   "articleId": 3,
                   "id": 4,
                   "message": "你测试代码也像cxk",
                   "time": 1555200000,
-                  "userId": 4
+                  "author": {
+                      "articleNum": 12,
+                      "id": 1,
+                      "name": "jiuyoung",
+                      "starsNum": 1
+              	}
               }
           ]
       }
@@ -821,14 +841,24 @@ Token作为识别用户是否登录的凭证，在请求需要认证的接口时
                   "id": 1,
                   "message": "鸡你太美",
                   "time": 1555200000,
-                  "userId": 4
+                  "author": {
+                      "articleNum": 12,
+                      "id": 1,
+                      "name": "jiuyoung",
+                      "starsNum": 1
+                  },
               },
               {
                   "articleId": 3,
                   "id": 3,
                   "message": "你测试代码也像cxk",
                   "time": 1555200000,
-                  "userId": 4
+                  "author": {
+                      "articleNum": 12,
+                      "id": 1,
+                      "name": "jiuyoung",
+                      "starsNum": 1
+              	}
               }
           ]
       }
