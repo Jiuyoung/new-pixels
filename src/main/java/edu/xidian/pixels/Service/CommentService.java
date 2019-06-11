@@ -4,12 +4,17 @@ import edu.xidian.pixels.Entity.Article;
 import edu.xidian.pixels.Entity.Comment;
 import edu.xidian.pixels.Mapper.ArticleMapper;
 import edu.xidian.pixels.Mapper.CommentMapper;
+import edu.xidian.pixels.Mapper.UserMapper;
+import edu.xidian.pixels.VO.AuthorVO;
+import edu.xidian.pixels.VO.CommentVO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.github.pagehelper.PageHelper;
@@ -23,33 +28,45 @@ public class CommentService {
     @Autowired
     private ArticleMapper articleMapper;
 
+    @Autowired
+    private UserMapper userMapper;
+
     @Cacheable(value = "redisCache",
             unless = "#result == null",
             key = "'redis_comment_' + #id")
-    public Comment findById(Integer id){
+    public CommentVO findById(Integer id){
         if(id!=null){
             Comment comment=commentMapper.select(id);
-            if(comment!=null)
-                return comment;
+            if(comment!=null) {
+                return CommentVO.trans(comment, AuthorVO.trans(userMapper.findById(comment.getUserId())));
+            }
         }
         return null;
     }
 
-    public List<Comment> findByArticle(Integer articleId, Integer pageNum, Integer pageSize){
+    public List<CommentVO> findByArticle(Integer articleId, Integer pageNum, Integer pageSize){
         if(articleId!=null){
             PageHelper.startPage(pageNum, pageSize);
             List<Comment> comments=commentMapper.selectByArticle(articleId);
-            if(comments!=null)
-                return comments;
+            List<CommentVO> cVOs = new ArrayList<>();
+            if(comments!=null) {
+                for (Comment comment : comments) {
+                    cVOs.add(CommentVO.trans(comment, AuthorVO.trans(userMapper.findById(comment.getUserId()))));
+                }
+                return cVOs;
+            }
         }
         return null;
     }
 
-    public List<Comment> findByUser(Integer userId, Integer pageNum, Integer pageSize){
+    public List<CommentVO> findByUser(Integer userId, Integer pageNum, Integer pageSize){
         if(userId!=null){
             PageHelper.startPage(pageNum, pageSize);
+            List<CommentVO> cVOs = new ArrayList<>();
             List<Comment> comments=commentMapper.selectByUser(userId);
-            return comments;
+            for(Comment comment : comments) {
+                cVOs.add(CommentVO.trans(comment, AuthorVO.trans(userMapper.findById(comment.getUserId()))));
+            }
         }
         return null;
     }

@@ -4,12 +4,14 @@ import java.io.Serializable;
 
 import edu.xidian.pixels.Entity.User;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
  * AuthorVO
  */
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

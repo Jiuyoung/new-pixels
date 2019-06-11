@@ -5,6 +5,7 @@ import edu.xidian.pixels.Annotation.UserLoginToken;
 import edu.xidian.pixels.Entity.Comment;
 import edu.xidian.pixels.Entity.User;
 import edu.xidian.pixels.Service.CommentService;
+import edu.xidian.pixels.VO.CommentVO;
 import edu.xidian.pixels.VO.ResponseObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class CommentController {
     @GetMapping("")
     public ResponseObject findById(@RequestParam(name="id") Integer id){
         ResponseObject o;
-        Comment comment=commentService.findById(id);
+        CommentVO comment=commentService.findById(id);
         if(comment!=null){
             o=ResponseObject.getSuccessResponse();
             o.putValue("data",comment);
@@ -36,7 +37,7 @@ public class CommentController {
                                     @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
                                     @RequestParam(name = "pageSize", defaultValue = "5") int pageSize){
         ResponseObject o;
-        List<Comment> comments=commentService.findByArticle(id, pageNum, pageSize);
+        List<CommentVO> comments=commentService.findByArticle(id, pageNum, pageSize);
         if(comments!=null && !comments.isEmpty()){
             o=ResponseObject.getSuccessResponse();
             o.putValue("data",comments);
@@ -51,7 +52,7 @@ public class CommentController {
                                 @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
                                 @RequestParam(name = "pageSize", defaultValue = "5") int pageSize){
         ResponseObject o;
-        List<Comment> comments=commentService.findByUser(id, pageNum, pageSize);
+        List<CommentVO> comments=commentService.findByUser(id, pageNum, pageSize);
         if(comments!=null && !comments.isEmpty()){
             o=ResponseObject.getSuccessResponse();
             o.putValue("data",comments);
