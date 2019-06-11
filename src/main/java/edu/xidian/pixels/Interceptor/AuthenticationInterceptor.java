@@ -12,7 +12,6 @@ import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -67,7 +66,6 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             UserLoginToken userLoginToken = method.getAnnotation(UserLoginToken.class);
             if (userLoginToken.required()) {
                 if (token == null) {
-                    response.setStatus(HttpStatus.UNAUTHORIZED.value());
                     throw new RuntimeException("无效token，请重新登录!");
                 }
                 String userAccount;
@@ -75,8 +73,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                     userAccount = JWT.decode(token).getAudience().get(0);
 
                 } catch (JWTDecodeException e) {
-                    response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-                    throw new RuntimeException("服务器出错!");
+                    throw new RuntimeException("登录失效，请重新登录!");
                 }
 
                 if (tokenService.hasToken(userAccount)) {
@@ -85,7 +82,6 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                     try {
                         jwtVerifier.verify(token);
                     } catch (JWTVerificationException e) {
-                        response.setStatus(HttpStatus.UNAUTHORIZED.value());
                         throw new RuntimeException("无效Token，请重新登录!");
                     }
                     User user = userService.findByAccount(userAccount);
@@ -93,7 +89,6 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                     request.setAttribute("CurrentUser", user);
                     return true;
                 } else {
-                    response.setStatus(HttpStatus.UNAUTHORIZED.value());
                     throw new RuntimeException("登录失效，请重新登录!");
                 }
             }
