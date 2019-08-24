@@ -26,5 +26,5 @@ public class Article implements Serializable {
     private String summary;
     private String content;
     private int stars;
-    private int comments;//评论数
+    private int comments;// 评论数
 }
