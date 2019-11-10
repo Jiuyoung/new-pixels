@@ -68,7 +68,7 @@
 
 - Method: **POST**
 
-- URL: ```.../user/register```
+- URL: `.../user/regist`
 
 - Headers: Content-Type:application/json
 
