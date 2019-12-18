@@ -25,8 +25,7 @@ public class CommentVO implements Serializable {
     private AuthorVO author;
 
     public static CommentVO trans(Comment comment, AuthorVO author) {
-        CommentVO vo = CommentVO.builder().articleId(comment.getArticleId()).author(author).id(comment.getId())
+        return CommentVO.builder().articleId(comment.getArticleId()).author(author).id(comment.getId())
                     .message(comment.getMessage()).time(comment.getTime()).build();
-        return vo;
     }
 }

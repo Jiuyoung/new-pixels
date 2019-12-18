@@ -24,10 +24,13 @@ import edu.xidian.pixels.VO.UserAccount;
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private TokenService tokenService;
+    private final UserService userService;
+    private final TokenService tokenService;
+
+    public UserController(UserService userService, TokenService tokenService) {
+        this.userService = userService;
+        this.tokenService = tokenService;
+    }
 
     @UserLoginToken
     @GetMapping("/info")

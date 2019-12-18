@@ -43,7 +43,7 @@
       {
         "code": 200,
         "message": "success",
-        "object": 某种类型的数据，比如字符串，数字，字典等等
+        "object": "某种类型的数据，比如字符串，数字，字典等等"
       }
       ``````
     
@@ -53,7 +53,7 @@
       {
         "code": 500,
         "message": "具体的错误信息字符串",
-        "object": 相关数据
+        "object": "相关数据"
       }
       ```
     
@@ -620,7 +620,7 @@ Token作为识别用户是否登录的凭证，在请求需要认证的接口时
                   "id": 1,
                   "name": "jiuyoung",
                   "starsNum": 1
-              },
+              }
           }
       }
   }
@@ -775,7 +775,7 @@ Token作为识别用户是否登录的凭证，在请求需要认证的接口时
                       "id": 1,
                       "name": "jiuyoung",
                       "starsNum": 1
-                  },
+                  }
               },
               {
                   "articleId": 3,
@@ -846,7 +846,7 @@ Token作为识别用户是否登录的凭证，在请求需要认证的接口时
                       "id": 1,
                       "name": "jiuyoung",
                       "starsNum": 1
-                  },
+                  }
               },
               {
                   "articleId": 3,

@@ -33,10 +33,13 @@ import edu.xidian.pixels.util.CurrentUserMethodArgumentResolver;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    @Autowired
-    private AuthenticationInterceptor interceptor;
-    @Autowired
-    private CurrentUserMethodArgumentResolver resolver;
+    private final AuthenticationInterceptor interceptor;
+    private final CurrentUserMethodArgumentResolver resolver;
+
+    public WebMvcConfig(AuthenticationInterceptor interceptor, CurrentUserMethodArgumentResolver resolver) {
+        this.interceptor = interceptor;
+        this.resolver = resolver;
+    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

@@ -22,14 +22,17 @@ import java.util.List;
 @RequestMapping("/article")
 public class ArticleController {
 
-    @Autowired
-    private ArticleService articleService;
+    private final ArticleService articleService;
 
-    @Autowired
-    private StarService starService;
+    private final StarService starService;
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    public ArticleController(ArticleService articleService, StarService starService, UserService userService) {
+        this.articleService = articleService;
+        this.starService = starService;
+        this.userService = userService;
+    }
 
     @GetMapping("/all")
     public ResponseObject recommend(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum,

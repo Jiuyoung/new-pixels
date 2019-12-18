@@ -14,6 +14,7 @@ import edu.xidian.pixels.Entity.User;
 
 /**
  * CurrentUserMethodArgumentResolver
+ * 配合@CurrentUser注解，注入当前登录的用户
  */
 @Component
 public class CurrentUserMethodArgumentResolver implements HandlerMethodArgumentResolver {
@@ -27,6 +28,7 @@ public class CurrentUserMethodArgumentResolver implements HandlerMethodArgumentR
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
             NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+        // setAttribute()的过程在认证拦截器中
         User user = (User) webRequest.getAttribute("CurrentUser", RequestAttributes.SCOPE_REQUEST);
         if (user != null) {
             return user;
