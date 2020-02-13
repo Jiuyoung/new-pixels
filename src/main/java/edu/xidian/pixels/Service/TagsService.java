@@ -18,7 +18,8 @@ public class TagsService {
     @Transactional
     @Cacheable(value = "redisCache",
             unless = "#result == null",
-            key = "'redis_tag_' + #id")
+            key = "'redis_tag_' + #id",
+            sync = true)
     public Tags findById(Integer id){
         if(id!=null) {
             return tagsMapper.findById(id);

@@ -5,7 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/**
+/*
  * PassToken
  * 在方法或者类上注解，表示不需要验证Token
  */

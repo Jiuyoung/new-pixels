@@ -2,7 +2,6 @@ package edu.xidian.pixels.aop;
 
 import javax.servlet.http.HttpServletRequest;
 
-import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -17,7 +16,6 @@ import org.springframework.web.cors.CorsUtils;
  */
 @Component
 @Aspect
-@Slf4j
 public class CustomerInterceptorAOP {
 
     /**

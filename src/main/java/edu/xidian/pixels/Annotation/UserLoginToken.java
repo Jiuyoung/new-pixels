@@ -5,7 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/**
+/*
  * UserLoginToken
  * 在方法和类上注解，表示需要Token验证
  */

@@ -7,7 +7,6 @@ import java.util.concurrent.TimeUnit;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +17,12 @@ import edu.xidian.pixels.Entity.User;
  */
 @Service
 public class TokenService {
-    @Autowired
+    final
     StringRedisTemplate template;
+
+    public TokenService(StringRedisTemplate template) {
+        this.template = template;
+    }
 
     public String getToken(User user) {
         String token = "";

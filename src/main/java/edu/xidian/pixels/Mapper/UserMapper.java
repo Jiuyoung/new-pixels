@@ -7,10 +7,12 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import edu.xidian.pixels.Entity.User;
+import org.springframework.stereotype.Repository;
 
 /**
  * UserMapper
  */
+@Repository
 @Mapper
 public interface UserMapper {
 

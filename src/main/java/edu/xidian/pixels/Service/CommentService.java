@@ -22,16 +22,19 @@ import edu.xidian.pixels.VO.CommentVO;
 @Service
 public class CommentService {
 
-    @Autowired
-    private CommentMapper commentMapper;
+    private final CommentMapper commentMapper;
 
-    @Autowired
-    private ArticleMapper articleMapper;
+    private final ArticleMapper articleMapper;
 
-    @Autowired
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
-    @Cacheable(value = "redisCache", unless = "#result == null", key = "'redis_comment_' + #id")
+    public CommentService(CommentMapper commentMapper, ArticleMapper articleMapper, UserMapper userMapper) {
+        this.commentMapper = commentMapper;
+        this.articleMapper = articleMapper;
+        this.userMapper = userMapper;
+    }
+
+    @Cacheable(value = "redisCache", unless = "#result == null", key = "'redis_comment_' + #id", sync = true)
     public CommentVO findById(Integer id) {
         if (id != null) {
             Comment comment = commentMapper.select(id);
@@ -84,7 +87,7 @@ public class CommentService {
         return false;
     }
 
-    @CacheEvict(value = "redisCache", key = "'redis_comment_' + #id")
+    @CacheEvict(value = "redisCache", key = "'redis_comment_' + #id", beforeInvocation = true)
     public boolean delete(Integer id) {
         if (id != null) {
             Comment comment = commentMapper.select(id);

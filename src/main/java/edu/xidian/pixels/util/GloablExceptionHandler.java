@@ -23,7 +23,7 @@ public class GloablExceptionHandler {
         ResponseObject o = ResponseObject.getFailResponse();
         MethodArgumentNotValidException ex = (MethodArgumentNotValidException) e;
         List<ObjectError> errors = ex.getBindingResult().getAllErrors();
-        StringBuffer errorMsg = new StringBuffer("错误信息: ");
+        StringBuilder errorMsg = new StringBuilder("错误信息: ");
         for (ObjectError error : errors) {
             errorMsg.append(error.getDefaultMessage()).append(";");
 

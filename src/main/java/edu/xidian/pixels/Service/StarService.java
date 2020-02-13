@@ -15,14 +15,17 @@ import java.util.List;
 public class StarService {
 
 
-    @Autowired
-    private StarMapper starMapper;
+    private final StarMapper starMapper;
 
-    @Autowired
-    private ArticleMapper articleMapper;
+    private final ArticleMapper articleMapper;
 
-    @Autowired
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
+
+    public StarService(StarMapper starMapper, ArticleMapper articleMapper, UserMapper userMapper) {
+        this.starMapper = starMapper;
+        this.articleMapper = articleMapper;
+        this.userMapper = userMapper;
+    }
 
     public boolean notExist(int userId, int articleId) {
         if(starMapper.findByArticleAndUser(articleId, userId) != null) {

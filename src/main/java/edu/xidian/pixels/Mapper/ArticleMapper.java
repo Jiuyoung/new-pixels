@@ -2,12 +2,14 @@ package edu.xidian.pixels.Mapper;
 
 import edu.xidian.pixels.Entity.Article;
 import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * ArticleMapper
  */
+@Repository
 @Mapper
 public interface ArticleMapper {
 

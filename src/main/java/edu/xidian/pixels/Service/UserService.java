@@ -17,8 +17,11 @@ import edu.xidian.pixels.Mapper.UserMapper;
 @Service
 public class UserService {
 
-    @Autowired
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
+
+    public UserService(UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
 
     @Transactional
     @CachePut(value = "redisCache",
@@ -62,7 +65,8 @@ public class UserService {
     @Transactional
     @Cacheable(value = "redisCache",
             unless = "#result == null",
-            key = "'redis_user_' + #account")
+            key = "'redis_user_' + #account",
+            sync = true)
     public User findByAccount(String account) {
         if(StringUtils.isNotEmpty(account) && StringUtils.isNotBlank(account)) {
             User user = userMapper.findByAccount(account);
@@ -79,23 +83,23 @@ public class UserService {
     }
 
     public boolean editStarsNum(User user){
-        if(user!=null){
-            if(userMapper.editStarsNum(user)==1)
+        if(user != null){
+            if(userMapper.editStarsNum(user) == 1)
                 return true;
         }
         return false;
     }
 
     public boolean editArticleNum(User user){
-        if(user!=null){
-            if(userMapper.editArticleNum(user)==1)
+        if(user != null){
+            if(userMapper.editArticleNum(user) == 1)
                 return true;
         }
         return false;
     }
 
     public User findById(Integer id){
-        if(id!=null){
+        if(id != null){
             return userMapper.findById(id);
         }
         return null;

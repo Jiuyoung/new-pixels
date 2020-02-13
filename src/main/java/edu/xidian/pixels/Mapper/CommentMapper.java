@@ -2,9 +2,11 @@ package edu.xidian.pixels.Mapper;
 
 import edu.xidian.pixels.Entity.Comment;
 import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 @Mapper
 public interface CommentMapper {
 

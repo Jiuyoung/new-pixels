@@ -1,5 +1,14 @@
 package edu.xidian.pixels.Controller;
 
+import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import edu.xidian.pixels.Annotation.CurrentUser;
 import edu.xidian.pixels.Annotation.UserLoginToken;
 import edu.xidian.pixels.Entity.Article;
@@ -10,10 +19,6 @@ import edu.xidian.pixels.Service.StarService;
 import edu.xidian.pixels.Service.UserService;
 import edu.xidian.pixels.VO.ArticleVO;
 import edu.xidian.pixels.VO.ResponseObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * ArticleController

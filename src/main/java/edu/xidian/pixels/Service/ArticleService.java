@@ -25,19 +25,24 @@ import com.github.pagehelper.PageHelper;
 @Service
 public class ArticleService {
 
-    @Autowired
-    private ArticleMapper articleMapper;
+    private final ArticleMapper articleMapper;
+
+    private final UserMapper userMapper;
+
+    private final TagsMapper tagsMapper;
 
     @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
-    private TagsMapper tagsMapper;
+    public ArticleService(ArticleMapper articleMapper, UserMapper userMapper, TagsMapper tagsMapper) {
+        this.articleMapper = articleMapper;
+        this.userMapper = userMapper;
+        this.tagsMapper = tagsMapper;
+    }
 
     @Transactional
     @Cacheable(value = "redisCache",
             unless = "#result == null",
-            key = "'redis_article_' + #id")
+            key = "'redis_article_' + #id",
+            sync = true)
     public ArticleVO findById(Integer id){
         if(id!=null){
             Article article=articleMapper.findById(id);
@@ -79,7 +84,7 @@ public class ArticleService {
 
     @Transactional
     public List<ArticleVO> recommend(Integer pageNum, Integer pageSize) {
-        List<ArticleVO> voList=new ArrayList<>();
+        List<ArticleVO> voList = new ArrayList<>();
         PageHelper.startPage(pageNum, pageSize);
         List<Article> list = articleMapper.recommend();
         if(list != null && !list.isEmpty()) {
@@ -102,18 +107,17 @@ public class ArticleService {
      * @return
      */
     public Article getArticle(Integer id){
-        if(id!=null){
-            Article article=articleMapper.findById(id);
-            if(article!=null)
+        if(id != null){
+            Article article = articleMapper.findById(id);
+            if(article != null)
                 return article;
         }
         return null;
     }
 
     public boolean insert(Article article){
-        if(article!=null) {
-            if (articleMapper.insert(article) > 0)
-                return true;
+        if(article != null) {
+            return articleMapper.insert(article) > 0;
         }
         return false;
     }
@@ -126,7 +130,7 @@ public class ArticleService {
     @CachePut(value = "redisCache",
             key = "'redis_article_' + #article.getId()")
     public ArticleVO update(Article article){
-        if(articleMapper.insert(article)==1){
+        if(articleMapper.insert(article) == 1){
             return this.findById(article.getId());
         }
         else
@@ -141,7 +145,7 @@ public class ArticleService {
     @CachePut(value = "redisCache",
             key = "'redis_article_' + #article.getId()")
     public ArticleVO editStars(Article article){
-        if(articleMapper.editStars(article)==1){
+        if(articleMapper.editStars(article) == 1){
             return this.findById(article.getId());
         }
         return null;

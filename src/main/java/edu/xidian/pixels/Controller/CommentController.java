@@ -2,7 +2,6 @@ package edu.xidian.pixels.Controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,8 +22,11 @@ import edu.xidian.pixels.VO.ResponseObject;
 @RequestMapping("/comment")
 public class CommentController {
 
-    @Autowired
-    private CommentService commentService;
+    private final CommentService commentService;
+
+    public CommentController(CommentService commentService) {
+        this.commentService = commentService;
+    }
 
     @GetMapping("")
     public ResponseObject findById(@RequestParam(name = "id") Integer id) {
