@@ -6,7 +6,6 @@ import edu.xidian.pixels.Entity.User;
 import edu.xidian.pixels.Mapper.ArticleMapper;
 import edu.xidian.pixels.Mapper.StarMapper;
 import edu.xidian.pixels.Mapper.UserMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
